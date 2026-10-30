@@ -17,12 +17,31 @@
 <main class="auth-wrap stack">
   <section class="auth-card wide">
     <h1>لوحة الإدارة</h1>
+    <div class="tabs" id="tabs" role="tablist">
+      <button type="button" data-tab="overview" aria-selected="true">نظرة عامة</button>
+      <button type="button" data-tab="requests" id="tabReq" aria-selected="false">الطلبات</button>
+      <button type="button" data-tab="programs" aria-selected="false">البرامج</button>
+      <button type="button" data-tab="teachers" aria-selected="false">المعلمون</button>
+      <button type="button" data-tab="users" aria-selected="false">المستخدمون</button>
+      <button type="button" data-tab="content" aria-selected="false">محتوى الموقع</button>
+    </div>
     <p id="msg" class="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="auth-card wide" data-panel="overview">
+    <h2>نظرة عامة</h2>
+    <div id="stats" class="stats"></div>
+  </section>
+
+  <section class="auth-card wide" data-panel="requests" hidden>
     <h2>طلبات التسجيل</h2>
-    <p class="meta">اختاري المعلم ثم اضغطي "قبول". المعلمون المعروضين هم اللي مربوطين بالبرنامج.</p>
+    <p class="meta">للقبول: اختاري المعلم ثم "قبول". المعلمون المعروضين هم اللي مربوطين بالبرنامج.</p>
+    <div class="filters"><label><span>عرض:</span>
+      <select id="reqFilter"><option value="pending">قيد المراجعة</option><option value="approved">المقبولة</option><option value="rejected">المرفوضة</option><option value="cancelled">الملغاة</option><option value="all">الكل</option></select></label></div>
     <div id="enrollments" class="rows"></div>
   </section>
-  <section class="auth-card wide">
+
+  <section class="auth-card wide" data-panel="programs" hidden>
     <h2>البرامج</h2>
     <p class="meta" id="progHint">لتعديل برنامج أو تغيير صورته اضغطي "تعديل" جنبه.</p>
     <div id="programs" class="rows"></div>
@@ -39,15 +58,38 @@
       <button class="btn ghost" id="progCancel" type="button" hidden>إلغاء التعديل</button>
     </form>
   </section>
-  <section class="auth-card wide">
+
+  <section class="auth-card wide" data-panel="teachers" hidden>
     <h2>المعلمون</h2>
     <p class="meta">علّمي على البرامج اللي يدرّسها كل معلم، واضغطي "نشر" لإظهاره في الصفحة الرئيسية.</p>
     <div id="teachers" class="rows"></div>
   </section>
-  <section class="auth-card wide">
+
+  <section class="auth-card wide" data-panel="users" hidden>
     <h2>المستخدمون</h2>
     <p class="meta">لتعيين معلم: خلّيه يسجّل حساب عادي الأول، وبعدين غيّري نوع حسابه إلى "معلم". زرار "رابط كلمة المرور" بيبعت للمستخدم إيميل يختار منه كلمة مرور جديدة.</p>
+    <div class="filters">
+      <label><span>بحث</span><input id="uSearch" type="search" placeholder="اسم أو إيميل أو موبايل"></label>
+      <label><span>النوع</span>
+        <select id="uRole"><option value="all">الكل</option><option value="student">طالب</option><option value="parent">ولي أمر</option><option value="teacher">معلم</option><option value="admin">مدير</option></select></label>
+    </div>
     <div id="users" class="rows"></div>
+  </section>
+
+  <section class="auth-card wide" data-panel="content" hidden>
+    <h2>محتوى الموقع</h2>
+    <p class="meta">اللي هتكتبيه هنا بيظهر في الصفحة الرئيسية. لو سبتي خانة فاضية، الموقع يستخدم النص الافتراضي.</p>
+    <form id="contentForm" class="tfields" novalidate>
+      <label class="full"><span>عنوان الصفحة الرئيسية (عربي)</span><input id="s_hero_title_ar" type="text" maxlength="300"></label>
+      <label class="full"><span>عنوان الصفحة الرئيسية (إنجليزي)</span><input id="s_hero_title_en" type="text" maxlength="300" dir="ltr"></label>
+      <label class="full"><span>الجملة تحت العنوان (عربي)</span><textarea id="s_hero_sub_ar" maxlength="600"></textarea></label>
+      <label class="full"><span>الجملة تحت العنوان (إنجليزي)</span><textarea id="s_hero_sub_en" maxlength="600" dir="ltr"></textarea></label>
+      <label class="full"><span>نص قسم "تواصل معنا" (عربي)</span><textarea id="s_contact_text_ar" maxlength="600"></textarea></label>
+      <label class="full"><span>نص قسم "تواصل معنا" (إنجليزي)</span><textarea id="s_contact_text_en" maxlength="600" dir="ltr"></textarea></label>
+      <label class="full"><span>رقم واتساب (مع كود الدولة، مثال: 201012345678)</span><input id="s_contact_whatsapp" type="text" dir="ltr" maxlength="30"></label>
+      <label class="full"><span>إيميل التواصل</span><input id="s_contact_email" type="email" dir="ltr" maxlength="120"></label>
+      <button class="btn" id="contentSubmit" type="submit">حفظ المحتوى</button>
+    </form>
   </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>

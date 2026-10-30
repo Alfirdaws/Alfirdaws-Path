@@ -87,3 +87,12 @@ details.full summary{cursor:pointer;font-weight:700}
 details.full .tfields{margin-top:12px}
 .lesson{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
 .lesson small{display:block;color:#4C6560;overflow-wrap:anywhere}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tabs button{font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--green);background:transparent;color:var(--green);padding:6px 14px;border-radius:8px}
+.tabs button[aria-selected="true"]{background:var(--green);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:6px;padding:14px;text-align:center}
+.stat b{display:block;font-family:"Reem Kufi",serif;font-size:2rem;color:var(--green);line-height:1.2}
+.filters{display:flex;flex-wrap:wrap;gap:10px}
+.filters input,.filters select{font:inherit;padding:8px 10px;border:1px solid #9DB5AB;border-radius:6px;background:#fff}
+.contact-links{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 16px}
