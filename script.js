@@ -26,7 +26,7 @@
     send_link:"Send reset link", new_pass_h:"Choose a new password", new_pass:"New password (8 characters or more)", new_pass2:"Repeat the new password", save_pass:"Save new password",
     pw_h:"Change password", change_pass:"Change password", nav_account:"My account",
     enroll_h:"Enroll in a program", enroll_intro:"Choose a program and send your request. The academy will contact you to confirm and arrange payment.",
-    e_program:"Program", e_notes:"Notes (optional)", e_send:"Send request", e_my:"My requests"
+    e_program:"Program", e_notes:"Notes (optional)", e_send:"Send request", e_my:"My requests", stu_h:"Student dashboard"
   } };
   var els = document.querySelectorAll("[data-i18n]");
   els.forEach(function (el) { T.ar[el.dataset.i18n] = el.textContent; });

@@ -44,7 +44,22 @@
       var o = h("option", "", p["title_" + lang()]); o.value = p.id; sel.appendChild(o);
     });
     if (keep) sel.value = keep;
+    renderPreview();
     document.getElementById("studentLabel").textContent = role === "parent" ? t("nameParent") : t("nameStudent");
+  }
+  function renderPreview() {
+    var box = document.getElementById("preview");
+    box.textContent = "";
+    var p = programs.filter(function (x) { return x.id === document.getElementById("program").value; })[0];
+    if (!p) return;
+    if (p.image_path) {
+      var im = h("img");
+      im.src = sb.storage.from("program-images").getPublicUrl(p.image_path).data.publicUrl;
+      im.alt = p["title_" + lang()];
+      box.appendChild(im);
+    }
+    var d = p["description_" + lang()];
+    if (d) box.appendChild(h("p", "", d));
   }
   function renderList() {
     var box = document.getElementById("myList");
@@ -89,6 +104,7 @@
     if (msg.dataset.key) msg.textContent = t(msg.dataset.key);
   });
 
+  document.getElementById("program").addEventListener("change", renderPreview);
   document.getElementById("form").addEventListener("submit", function (ev) {
     ev.preventDefault();
     var name = document.getElementById("student_name").value.trim();
@@ -115,7 +131,7 @@
       if (p.error || !p.data || (p.data.role !== "student" && p.data.role !== "parent")) { window.location.href = "account.html"; return; }
       role = p.data.role; fullName = p.data.full_name || "";
       if (role === "student") document.getElementById("student_name").value = fullName;
-      return sb.from("programs").select("id,title_ar,title_en,sort_order").order("sort_order").then(function (pr) {
+      return sb.from("programs").select("id,title_ar,title_en,description_ar,description_en,image_path,sort_order").order("sort_order").then(function (pr) {
         programs = pr.data || [];
         renderForm();
         if (!programs.length) say("err", "noProgram");

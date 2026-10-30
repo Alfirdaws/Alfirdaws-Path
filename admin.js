@@ -66,17 +66,40 @@
     });
   }
 
+  var editingId = null;
+  function imgUrl(path) { return sb.storage.from("program-images").getPublicUrl(path).data.publicUrl; }
+  function resetProgForm() {
+    editingId = null;
+    document.getElementById("progForm").reset();
+    document.getElementById("progSubmit").textContent = "إضافة برنامج";
+    document.getElementById("progCancel").hidden = true;
+  }
   function renderPrograms() {
     var box = document.getElementById("programs");
     box.textContent = "";
     S.programs.forEach(function (p) {
       var row = h("div", "row");
-      row.appendChild(info(p.title_ar + "  /  " + p.title_en, p.is_active ? "ظاهر للجمهور" : "متوقف"));
+      if (p.image_path) { var im = h("img", "thumb"); im.src = imgUrl(p.image_path); im.alt = ""; row.appendChild(im); }
+      row.appendChild(info(p.title_ar + "  /  " + p.title_en, (p.is_active ? "ظاهر للجمهور" : "متوقف") + (p.image_path ? "  |  له صورة" : "  |  بدون صورة")));
+      var ed = h("button", "btn ghost small", "تعديل"); ed.type = "button";
+      ed.addEventListener("click", function () {
+        editingId = p.id;
+        document.getElementById("p_cat").value = p.category;
+        document.getElementById("p_ar").value = p.title_ar;
+        document.getElementById("p_en").value = p.title_en;
+        document.getElementById("p_dar").value = p.description_ar || "";
+        document.getElementById("p_den").value = p.description_en || "";
+        document.getElementById("p_img").value = "";
+        document.getElementById("progSubmit").textContent = "حفظ التعديلات";
+        document.getElementById("progCancel").hidden = false;
+        document.getElementById("progForm").scrollIntoView({ behavior: "smooth", block: "center" });
+        say("ok", "بتعدّلي دلوقتي برنامج: " + p.title_ar + ". لو مش هتغيّري الصورة سيبي خانة الصورة فاضية.");
+      });
       var b = h("button", "btn small" + (p.is_active ? " ghost" : ""), p.is_active ? "إيقاف" : "تفعيل"); b.type = "button";
       b.addEventListener("click", function () {
         sb.from("programs").update({ is_active: !p.is_active }).eq("id", p.id).then(done(p.is_active ? "تم إيقاف البرنامج." : "تم تفعيل البرنامج."));
       });
-      row.appendChild(b);
+      row.appendChild(ed); row.appendChild(b);
       box.appendChild(row);
     });
   }
@@ -154,7 +177,7 @@
     return Promise.all([
       sb.from("profiles").select("id,full_name,email,phone,role,created_at").order("created_at", { ascending: false }),
       sb.from("teachers").select("id,display_name,is_published"),
-      sb.from("programs").select("id,title_ar,title_en,is_active,sort_order").order("sort_order"),
+      sb.from("programs").select("id,category,title_ar,title_en,description_ar,description_en,image_path,is_active,sort_order").order("sort_order"),
       sb.from("teacher_programs").select("teacher_id,program_id"),
       sb.from("enrollments").select("id,account_id,program_id,teacher_id,student_name,notes,status,created_at")
     ]).then(function (res) {
@@ -164,21 +187,48 @@
     });
   }
 
+  document.getElementById("progCancel").addEventListener("click", function () { resetProgForm(); say("ok", "تم إلغاء التعديل."); });
+  var EXT = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
   document.getElementById("progForm").addEventListener("submit", function (ev) {
     ev.preventDefault();
     var ar = document.getElementById("p_ar").value.trim(), en = document.getElementById("p_en").value.trim();
     if (!ar || !en) return say("err", "اكتبي اسم البرنامج بالعربي والإنجليزي.");
-    var next = S.programs.reduce(function (m, p) { return Math.max(m, p.sort_order || 0); }, 0) + 1;
-    sb.from("programs").insert({
+    var file = document.getElementById("p_img").files[0];
+    if (file && !EXT[file.type]) return say("err", "الصورة لازم تكون JPG أو PNG أو WEBP.");
+    if (file && file.size > 2 * 1024 * 1024) return say("err", "حجم الصورة أكبر من 2 ميجا. صغّريها وجرّبي تاني.");
+    var payload = {
       category: document.getElementById("p_cat").value, title_ar: ar, title_en: en,
-      description_ar: document.getElementById("p_dar").value.trim(), description_en: document.getElementById("p_den").value.trim(),
-      sort_order: next
-    }).then(function (r) {
-      if (r.error) return fail(r.error);
-      document.getElementById("progForm").reset();
-      say("ok", "تمت إضافة البرنامج.");
-      load();
-    });
+      description_ar: document.getElementById("p_dar").value.trim(), description_en: document.getElementById("p_den").value.trim()
+    };
+    var btn = document.getElementById("progSubmit");
+    btn.disabled = true;
+    var oldImage = null;
+    var q;
+    if (editingId) {
+      var cur = S.programs.filter(function (x) { return x.id === editingId; })[0];
+      oldImage = cur ? cur.image_path : null;
+      q = sb.from("programs").update(payload).eq("id", editingId).select("id").single();
+    } else {
+      var next = S.programs.reduce(function (m, p) { return Math.max(m, p.sort_order || 0); }, 0) + 1;
+      payload.sort_order = next;
+      q = sb.from("programs").insert(payload).select("id").single();
+    }
+    q.then(function (r) {
+      if (r.error) { btn.disabled = false; return fail(r.error); }
+      if (!file) { btn.disabled = false; resetProgForm(); say("ok", "تم حفظ البرنامج."); return load(); }
+      var path = r.data.id + "-" + Date.now() + "." + EXT[file.type];
+      return sb.storage.from("program-images").upload(path, file, { contentType: file.type, upsert: false }).then(function (u) {
+        if (u.error) { btn.disabled = false; return fail(u.error); }
+        return sb.from("programs").update({ image_path: path }).eq("id", r.data.id).then(function (up) {
+          btn.disabled = false;
+          if (up.error) return fail(up.error);
+          if (oldImage) sb.storage.from("program-images").remove([oldImage]);
+          resetProgForm();
+          say("ok", "تم حفظ البرنامج وصورته.");
+          return load();
+        });
+      });
+    }).catch(function () { btn.disabled = false; say("err", "حصلت مشكلة. جرّب تاني بعد شوية."); });
   });
 
   sb.auth.getSession().then(function (r) {

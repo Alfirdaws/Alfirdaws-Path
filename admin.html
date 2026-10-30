@@ -24,15 +24,19 @@
   </section>
   <section class="auth-card wide">
     <h2>البرامج</h2>
+    <p class="meta" id="progHint">لتعديل برنامج أو تغيير صورته اضغطي "تعديل" جنبه.</p>
     <div id="programs" class="rows"></div>
     <form id="progForm" class="tfields" novalidate>
       <label><span>النوع</span>
         <select id="p_cat"><option value="quran">القرآن</option><option value="arabic">اللغة العربية</option><option value="islamic">الدراسات الإسلامية</option><option value="other">أخرى</option></select></label>
       <label><span>الاسم بالعربي</span><input id="p_ar" type="text" maxlength="120"></label>
       <label><span>الاسم بالإنجليزي</span><input id="p_en" type="text" maxlength="120" dir="ltr"></label>
-      <label><span>الوصف بالعربي</span><input id="p_dar" type="text" maxlength="600"></label>
-      <label><span>الوصف بالإنجليزي</span><input id="p_den" type="text" maxlength="600" dir="ltr"></label>
-      <button class="btn" type="submit">إضافة برنامج</button>
+      <label class="full"><span>الوصف بالعربي</span><textarea id="p_dar" maxlength="600"></textarea></label>
+      <label class="full"><span>الوصف بالإنجليزي</span><textarea id="p_den" maxlength="600" dir="ltr"></textarea></label>
+      <label class="full"><span>صورة البرنامج (JPG أو PNG أو WEBP، حتى 2 ميجا)</span>
+        <input id="p_img" type="file" accept="image/jpeg,image/png,image/webp"></label>
+      <button class="btn" id="progSubmit" type="submit">إضافة برنامج</button>
+      <button class="btn ghost" id="progCancel" type="button" hidden>إلغاء التعديل</button>
     </form>
   </section>
   <section class="auth-card wide">

@@ -50,15 +50,104 @@
       });
     });
   }
+  var msg3 = document.getElementById("msg3");
+  var ATT = { attended: "حضر", absent: "غاب", excused: "اعتذر" };
+  var openIds = {};
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function field(text, input, full) {
+    var l = h("label", full ? "full" : "");
+    l.appendChild(h("span", "", text));
+    l.appendChild(input);
+    return l;
+  }
+  function inp(type, value) { var i = h("input"); i.type = type; if (value !== undefined) i.value = value; return i; }
   function loadStudents() {
-    return sb.from("enrollments").select("id,student_name,reviewed_at,programs(title_ar)").eq("teacher_id", uid).eq("status", "approved").then(function (r) {
+    return Promise.all([
+      sb.from("enrollments").select("id,student_name,progress_percent,progress_note,programs(title_ar)").eq("teacher_id", uid).eq("status", "approved"),
+      sb.from("lessons").select("id,enrollment_id,held_on,topic,attendance").order("held_on", { ascending: false })
+    ]).then(function (res) {
       var box = document.getElementById("students");
       box.textContent = "";
-      if (r.error) return fail(msg2, r.error);
-      if (!r.data.length) { box.appendChild(h("p", "meta", "لسه ما فيش طلاب مسندين ليك.")); return; }
-      r.data.forEach(function (s) {
+      if (res[0].error) return fail(msg3, res[0].error);
+      if (res[1].error) return fail(msg3, res[1].error);
+      if (!res[0].data.length) { box.appendChild(h("p", "meta", "لسه ما فيش طلاب مسندين ليك.")); return; }
+      res[0].data.forEach(function (s) {
         var row = h("div", "row");
-        row.appendChild(h("strong", "", s.student_name + " — " + (s.programs ? s.programs.title_ar : "")));
+        var det = h("details", "full");
+        det.open = !!openIds[s.id];
+        det.addEventListener("toggle", function () { openIds[s.id] = det.open; });
+        det.appendChild(h("summary", "", s.student_name + " — " + (s.programs ? s.programs.title_ar : "") + " — " + s.progress_percent + "%"));
+
+        // progress
+        det.appendChild(h("h3", "", "التقدم"));
+        var pf = h("div", "tfields");
+        var pct = inp("number", s.progress_percent); pct.min = 0; pct.max = 100; pct.setAttribute("dir", "ltr");
+        var note = inp("text", s.progress_note || ""); note.maxLength = 500;
+        var sv = h("button", "btn small", "حفظ التقدم"); sv.type = "button";
+        sv.addEventListener("click", function () {
+          var v = parseInt(pct.value, 10);
+          if (isNaN(v) || v < 0 || v > 100) return say(msg3, "err", "التقدم لازم يكون رقم من 0 لـ 100.");
+          sb.rpc("teacher_update_progress", { enrollment_id: s.id, percent: v, note: note.value.trim() }).then(function (r) {
+            if (r.error) return fail(msg3, r.error);
+            say(msg3, "ok", "تم حفظ التقدم.");
+            loadStudents();
+          });
+        });
+        pf.appendChild(field("نسبة التقدم %", pct)); pf.appendChild(field("ملاحظة عن التقدم", note, true)); pf.appendChild(sv);
+        det.appendChild(pf);
+
+        // new lesson
+        det.appendChild(h("h3", "", "تسجيل حصة"));
+        var lf = h("div", "tfields");
+        var dt = inp("date", todayStr()); dt.setAttribute("dir", "ltr");
+        var topic = inp("text", ""); topic.maxLength = 200;
+        var att = h("select");
+        Object.keys(ATT).forEach(function (k2) { var o = h("option", "", ATT[k2]); o.value = k2; att.appendChild(o); });
+        var notes = h("textarea"); notes.maxLength = 1000;
+        var hw = inp("text", ""); hw.maxLength = 500;
+        var add = h("button", "btn small", "إضافة الحصة"); add.type = "button";
+        add.addEventListener("click", function () {
+          if (!dt.value) return say(msg3, "err", "اختاري تاريخ الحصة.");
+          if (!topic.value.trim()) return say(msg3, "err", "اكتبي موضوع الحصة.");
+          add.disabled = true;
+          sb.from("lessons").insert({
+            enrollment_id: s.id, held_on: dt.value, topic: topic.value.trim(), notes: notes.value.trim(),
+            homework: hw.value.trim(), attendance: att.value
+          }).then(function (r) {
+            add.disabled = false;
+            if (r.error) return fail(msg3, r.error);
+            say(msg3, "ok", "تمت إضافة الحصة.");
+            loadStudents();
+          });
+        });
+        lf.appendChild(field("التاريخ", dt)); lf.appendChild(field("الحضور", att)); lf.appendChild(field("موضوع الحصة", topic, true));
+        lf.appendChild(field("ملاحظات للطالب", notes, true)); lf.appendChild(field("الواجب", hw, true)); lf.appendChild(add);
+        det.appendChild(lf);
+
+        // recent lessons
+        det.appendChild(h("h3", "", "آخر الحصص"));
+        var mine = res[1].data.filter(function (x) { return x.enrollment_id === s.id; }).slice(0, 8);
+        if (!mine.length) det.appendChild(h("p", "meta", "لسه ما سجلتيش حصص."));
+        mine.forEach(function (x) {
+          var lr = h("div", "lesson");
+          lr.appendChild(h("strong", "", x.held_on + " — " + x.topic + " (" + ATT[x.attendance] + ")"));
+          var del = h("button", "btn ghost small", "حذف"); del.type = "button";
+          del.style.marginInlineStart = "10px";
+          del.addEventListener("click", function () {
+            if (!window.confirm("حذف حصة " + x.topic + "؟")) return;
+            sb.from("lessons").delete().eq("id", x.id).then(function (r) {
+              if (r.error) return fail(msg3, r.error);
+              say(msg3, "ok", "تم حذف الحصة.");
+              loadStudents();
+            });
+          });
+          lr.appendChild(del);
+          det.appendChild(lr);
+        });
+        row.appendChild(det);
         box.appendChild(row);
       });
     });

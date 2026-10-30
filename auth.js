@@ -22,7 +22,7 @@
       resetSent: "لو الإيميل ده مسجّل عندنا، هنبعت لك رابط لاختيار كلمة مرور جديدة. بص في بريدك (وفولدر Spam).",
       linkExpired: "الرابط منتهي أو غير صالح. اطلب رابط جديد.",
       passChanged: "تم تغيير كلمة المرور.",
-      enrollLink: "التسجيل في البرامج",
+      enrollLink: "التسجيل في البرامج", studentLink: "لوحة الطالب",
       adminLink: "لوحة الإدارة", teacherLink: "لوحة المعلم",
       student: "طالب", parent: "ولي أمر", teacher: "معلم", admin: "مدير الأكاديمية"
     },
@@ -41,7 +41,7 @@
       resetSent: "If this email is registered, we will send you a link to choose a new password. Check your inbox (and Spam).",
       linkExpired: "The link is expired or invalid. Please request a new one.",
       passChanged: "Your password has been changed.",
-      enrollLink: "Enroll in programs",
+      enrollLink: "Enroll in programs", studentLink: "Student dashboard",
       adminLink: "Admin dashboard", teacherLink: "Teacher dashboard",
       student: "Student", parent: "Parent", teacher: "Teacher", admin: "Academy director"
     }
@@ -81,14 +81,15 @@
     var box = document.getElementById("links");
     if (box && currentRole) {
       box.textContent = "";
-      var target = currentRole === "admin" ? ["admin.html", "adminLink"] : currentRole === "teacher" ? ["teacher.html", "teacherLink"] : (currentRole === "student" || currentRole === "parent") ? ["enroll.html", "enrollLink"] : null;
-      if (target) {
+      var targets = currentRole === "admin" ? [["admin.html", "adminLink"]] : currentRole === "teacher" ? [["teacher.html", "teacherLink"]] : (currentRole === "student" || currentRole === "parent") ? [["student.html", "studentLink"], ["enroll.html", "enrollLink"]] : [];
+      targets.forEach(function (tg) {
         var a = document.createElement("a");
-        a.className = "btn";
-        a.href = target[0];
-        a.textContent = t(target[1]);
+        a.className = "btn small";
+        a.href = tg[0];
+        a.style.marginInlineEnd = "8px";
+        a.textContent = t(tg[1]);
         box.appendChild(a);
-      }
+      });
     }
   }
 

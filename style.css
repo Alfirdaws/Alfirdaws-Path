@@ -73,3 +73,17 @@ footer{padding:24px 5vw;text-align:center;background:var(--green);color:#E8F1EC;
 .auth-card form{display:flex;flex-direction:column;gap:14px}
 .row .full{flex-basis:100%}
 .auth-card .btn.small{padding:6px 14px;font-size:.95rem}
+
+.card img,.preview img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;margin-bottom:10px}
+.row .thumb{width:64px;height:48px;object-fit:cover;border-radius:4px}
+.tfields label.full{flex-basis:100%}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0}
+.bar>span{display:block;height:100%;background:var(--green2)}
+.preview{border:1px solid var(--line);border-radius:6px;padding:12px}
+.preview:empty{display:none}
+.preview p{margin:0}
+details.full{width:100%}
+details.full summary{cursor:pointer;font-weight:700}
+details.full .tfields{margin-top:12px}
+.lesson{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
+.lesson small{display:block;color:#4C6560;overflow-wrap:anywhere}
