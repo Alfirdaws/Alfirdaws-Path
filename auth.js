@@ -116,7 +116,7 @@
       uid = s.user.id;
       document.getElementById("emailLabel").textContent = s.user.email;
       return sb.from("profiles").select("full_name,phone,role").eq("id", uid).single().then(function (p) {
-        if (p.error || !p.data) return show("err", "generic");
+        if (p.error || !p.data) { show("err", "generic"); if (p.error) msg.textContent += " [" + (p.error.code || "") + " " + (p.error.message || "") + "]"; return; }
         document.getElementById("full_name").value = p.data.full_name || "";
         document.getElementById("phone").value = p.data.phone || "";
         currentRole = p.data.role; renderRole();
@@ -129,7 +129,7 @@
       sb.from("profiles").update({ full_name: val("full_name"), phone: val("phone"), preferred_language: lang() })
         .eq("id", uid).then(function (r) {
           busy(false);
-          if (r.error) return show("err", "generic");
+          if (r.error) { show("err", "generic"); msg.textContent += " [" + (r.error.code || "") + " " + (r.error.message || "") + "]"; return; }
           show("ok", "saved");
         });
     });
