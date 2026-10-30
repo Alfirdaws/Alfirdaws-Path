@@ -33,12 +33,14 @@
     document.documentElement.lang = l;
     document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
     els.forEach(function (el) { if (T[l][el.dataset.i18n] !== undefined) el.textContent = T[l][el.dataset.i18n]; });
-    document.getElementById("langBtn").textContent = l === "ar" ? "English" : "العربية";
+    var lb = document.getElementById("langBtn");
+    if (lb) lb.textContent = l === "ar" ? "English" : "العربية";
     document.title = titles[l];
     try { localStorage.setItem("lang", l); } catch (e) {}
     document.dispatchEvent(new CustomEvent("af-lang", { detail: l }));
   }
-  document.getElementById("langBtn").addEventListener("click", function () {
+  var langBtn = document.getElementById("langBtn");
+  if (langBtn) langBtn.addEventListener("click", function () {
     setLang(document.documentElement.lang === "ar" ? "en" : "ar");
   });
   try { if (localStorage.getItem("lang") === "en") setLang("en"); } catch (e) {}

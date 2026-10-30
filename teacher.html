@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة المعلم | مسار الفردوس</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="teacher">
+<header class="top">
+  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>مسار الفردوس</span></a>
+  <div class="actions" style="margin-inline-start:auto"><a class="btn ghost" href="account.html">حسابي</a></div>
+</header>
+<main class="auth-wrap stack">
+  <form id="form" class="auth-card wide" novalidate>
+    <h1>لوحة المعلم</h1>
+    <p class="meta">حالة ظهورك في الموقع: <span id="status" class="badge">…</span></p>
+    <label><span>الاسم الذي يظهر للطلاب</span>
+      <input id="display_name" type="text" maxlength="80"></label>
+    <label><span>سنوات الخبرة</span>
+      <input id="years" type="number" min="0" max="80" dir="ltr"></label>
+    <div><span>التخصصات</span>
+      <div class="chips" id="specs">
+        <label><input type="checkbox" value="quran"> تلاوة القرآن</label>
+        <label><input type="checkbox" value="tajweed"> التجويد</label>
+        <label><input type="checkbox" value="memorization"> حفظ القرآن</label>
+        <label><input type="checkbox" value="arabic"> اللغة العربية</label>
+        <label><input type="checkbox" value="islamic"> الدراسات الإسلامية</label>
+      </div></div>
+    <label><span>نبذة عنك (حتى 1000 حرف)</span>
+      <textarea id="bio" maxlength="1000"></textarea></label>
+    <button class="btn big" id="submit" type="submit">حفظ البيانات</button>
+    <p id="msg" class="msg" role="status" aria-live="polite"></p>
+  </form>
+  <section class="auth-card wide">
+    <h2>مواعيدك المتاحة</h2>
+    <p class="meta">المواعيد بتوقيت القاهرة.</p>
+    <div id="slots" class="rows"></div>
+    <form id="slotForm" class="tfields" novalidate>
+      <label><span>اليوم</span>
+        <select id="weekday">
+          <option value="6">السبت</option><option value="0">الأحد</option><option value="1">الاثنين</option>
+          <option value="2">الثلاثاء</option><option value="3">الأربعاء</option><option value="4">الخميس</option><option value="5">الجمعة</option>
+        </select></label>
+      <label><span>من</span><input id="start" type="time" dir="ltr" required></label>
+      <label><span>إلى</span><input id="end" type="time" dir="ltr" required></label>
+      <button class="btn" id="addSlot" type="submit">إضافة موعد</button>
+    </form>
+    <p id="msg2" class="msg" role="status" aria-live="polite"></p>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
+<script src="auth.js"></script>
+<script src="teacher.js"></script>
+</body>
+</html>

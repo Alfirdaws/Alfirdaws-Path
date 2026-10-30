@@ -19,6 +19,7 @@
       rate: "محاولات كتير. استنى شوية وجرّب تاني.",
       generic: "حصلت مشكلة. جرّب تاني بعد شوية.",
       saved: "تم حفظ التغييرات.",
+      adminLink: "لوحة الإدارة", teacherLink: "لوحة المعلم",
       student: "طالب", parent: "ولي أمر", teacher: "معلم", admin: "مدير الأكاديمية"
     },
     en: {
@@ -33,19 +34,22 @@
       rate: "Too many attempts. Please wait a moment and try again.",
       generic: "Something went wrong. Please try again shortly.",
       saved: "Changes saved.",
+      adminLink: "Admin dashboard", teacherLink: "Teacher dashboard",
       student: "Student", parent: "Parent", teacher: "Teacher", admin: "Academy director"
     }
   };
   function t(k) { return M[lang()][k]; }
   function show(kind, key) {
+    if (!msg) return;
     msg.className = "msg " + kind;
     msg.textContent = t(key);
     msg.dataset.key = key;
   }
-  document.addEventListener("af-lang", function () { if (msg.dataset.key) msg.textContent = t(msg.dataset.key); renderRole(); });
+  document.addEventListener("af-lang", function () { if (msg && msg.dataset.key) msg.textContent = t(msg.dataset.key); renderRole(); });
 
   if (!window.supabase || !cfg) { show("err", "lib"); return; }
   var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_KEY);
+  window.AF_sb = sb;
 
   function mapError(e) {
     var m = (e && e.message || "").toLowerCase();
@@ -62,6 +66,18 @@
   function renderRole() {
     var el = document.getElementById("roleLabel");
     if (el && currentRole) el.textContent = t(currentRole) || currentRole;
+    var box = document.getElementById("links");
+    if (box && currentRole) {
+      box.textContent = "";
+      var target = currentRole === "admin" ? ["admin.html", "adminLink"] : currentRole === "teacher" ? ["teacher.html", "teacherLink"] : null;
+      if (target) {
+        var a = document.createElement("a");
+        a.className = "btn";
+        a.href = target[0];
+        a.textContent = t(target[1]);
+        box.appendChild(a);
+      }
+    }
   }
 
   if (page === "register") {
