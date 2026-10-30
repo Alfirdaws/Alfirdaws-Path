@@ -28,6 +28,7 @@
     enroll_h:"Enroll in a program", enroll_intro:"Choose a program and send your request. The academy will contact you to confirm and arrange payment.",
     e_program:"Program", e_notes:"Notes (optional)", e_send:"Send request", e_my:"My requests", stu_h:"Student dashboard"
   } };
+  if (window.AF_EXTRA_EN) Object.keys(window.AF_EXTRA_EN).forEach(function (k) { T.en[k] = window.AF_EXTRA_EN[k]; });
   var els = document.querySelectorAll("[data-i18n]");
   els.forEach(function (el) { T.ar[el.dataset.i18n] = el.textContent; });
   var titles = { ar: document.title, en: "AlFirdaws Al-A’la" };
@@ -38,8 +39,9 @@
     document.documentElement.lang = l;
     document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
     els.forEach(function (el) { if (T[l][el.dataset.i18n] !== undefined) el.textContent = T[l][el.dataset.i18n]; });
-    var lb = document.getElementById("langBtn");
-    if (lb) lb.textContent = l === "ar" ? "English" : "العربية";
+    var ll = document.getElementById("langLabel"), lb = document.getElementById("langBtn");
+    if (ll) ll.textContent = l === "ar" ? "English" : "العربية";
+    else if (lb) lb.textContent = l === "ar" ? "English" : "العربية";
     document.title = titles[l];
     try { localStorage.setItem("lang", l); } catch (e) {}
     document.dispatchEvent(new CustomEvent("af-lang", { detail: l }));

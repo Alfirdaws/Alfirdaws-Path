@@ -12,6 +12,7 @@
     ["cancelled", "طلبات ملغاة"], ["lessons_30d", "حصص آخر 30 يوم"], ["lessons_total", "إجمالي الحصص"]
   ];
   var me = null;
+  var EXT = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
   var S = { users: [], teachers: [], programs: [], tp: [], enr: [], settings: {}, stats: null };
 
   function h(tag, cls, text) {
@@ -241,6 +242,7 @@
   // ---------- site content
   function renderContent() {
     SETTING_KEYS.forEach(function (k) { el("s_" + k).value = S.settings[k] || ""; });
+    el("heroImgState").textContent = S.settings.hero_image ? "فيه صورة مرفوعة حاليًا. ارفعي صورة جديدة لو عايزة تغيّريها." : "لسه ما فيش صورة، الموقع بيعرض رسم افتراضي.";
   }
   function normalizeWa(v) {
     var d = String(v || "").replace(/\D/g, "");
@@ -259,14 +261,28 @@
       if (k === "contact_whatsapp") v = wa;
       return { key: k, value: v };
     });
+    var heroFile = el("s_hero_image").files[0];
+    if (heroFile && !EXT[heroFile.type]) return say("err", "صورة الصفحة الرئيسية لازم تكون JPG أو PNG أو WEBP.");
+    if (heroFile && heroFile.size > 2 * 1024 * 1024) return say("err", "حجم الصورة أكبر من 2 ميجا. صغّريها وجرّبي تاني.");
     var btn = el("contentSubmit");
     btn.disabled = true;
     sb.from("site_settings").upsert(rows, { onConflict: "key" }).then(function (r) {
-      btn.disabled = false;
-      if (r.error) return fail(r.error);
-      say("ok", "تم حفظ محتوى الموقع. افتحي الصفحة الرئيسية وشوفي النتيجة.");
-      return load();
-    });
+      if (r.error) { btn.disabled = false; return fail(r.error); }
+      if (!heroFile) { btn.disabled = false; say("ok", "تم حفظ محتوى الموقع. افتحي الصفحة الرئيسية وشوفي النتيجة."); return load(); }
+      var path = "hero-" + Date.now() + "." + EXT[heroFile.type];
+      var oldHero = S.settings.hero_image;
+      return sb.storage.from("program-images").upload(path, heroFile, { contentType: heroFile.type, upsert: false }).then(function (u) {
+        if (u.error) { btn.disabled = false; return fail(u.error); }
+        return sb.from("site_settings").upsert([{ key: "hero_image", value: path }], { onConflict: "key" }).then(function (up) {
+          btn.disabled = false;
+          if (up.error) return fail(up.error);
+          if (oldHero) sb.storage.from("program-images").remove([oldHero]);
+          el("s_hero_image").value = "";
+          say("ok", "تم حفظ المحتوى وصورة الصفحة الرئيسية.");
+          return load();
+        });
+      });
+    }).catch(function () { btn.disabled = false; say("err", "حصلت مشكلة. جرّب تاني بعد شوية."); });
   });
 
   function renderAll() { renderStats(); renderEnrollments(); renderPrograms(); renderTeachers(); renderUsers(); renderContent(); }
@@ -292,7 +308,6 @@
   el("uRole").addEventListener("change", renderUsers);
 
   document.getElementById("progCancel").addEventListener("click", function () { resetProgForm(); say("ok", "تم إلغاء التعديل."); });
-  var EXT = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
   document.getElementById("progForm").addEventListener("submit", function (ev) {
     ev.preventDefault();
     var ar = document.getElementById("p_ar").value.trim(), en = document.getElementById("p_en").value.trim();
