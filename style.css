@@ -69,3 +69,7 @@ footer{padding:24px 5vw;text-align:center;background:var(--green);color:#E8F1EC;
 .tfields label{flex:1 1 140px}
 .badge{font-weight:700;color:var(--green2)}
 .card small{display:block;margin-top:8px;color:#4C6560}
+[hidden]{display:none!important}
+.auth-card form{display:flex;flex-direction:column;gap:14px}
+.row .full{flex-basis:100%}
+.auth-card .btn.small{padding:6px 14px;font-size:.95rem}

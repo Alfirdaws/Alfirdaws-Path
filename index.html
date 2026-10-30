@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AlFirdaws Path | مسار الفردوس</title>
+<title>AlFirdaws Al-A’la | الفردوس الأعلى</title>
 <meta name="description" content="Live 1-on-1 online Quran, Arabic and Islamic studies classes. حصص فردية مباشرة للقرآن واللغة العربية والدراسات الإسلامية.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
 </head>
 <body data-page="home">
 <header class="top">
-  <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true"></span><span data-i18n="brand">مسار الفردوس</span></a>
+  <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true"></span><span data-i18n="brand">الفردوس الأعلى</span></a>
   <nav id="nav" aria-label="Main">
     <a href="#programs" data-i18n="nav_programs">البرامج</a>
     <a href="#why" data-i18n="nav_why">لماذا نحن</a>
@@ -43,7 +43,7 @@
 
   <section id="programs" class="section">
     <h2 data-i18n="programs_h">برامجنا</h2>
-    <div class="grid">
+    <div class="grid" id="programList">
       <article class="card"><h3 data-i18n="p1_h">تلاوة القرآن وتجويده</h3><p data-i18n="p1_t">من تصحيح القراءة للمبتدئين حتى إتقان أحكام التجويد.</p></article>
       <article class="card"><h3 data-i18n="p2_h">حفظ القرآن</h3><p data-i18n="p2_t">خطة حفظ ومراجعة تتماشى مع مستواك ووقتك.</p></article>
       <article class="card"><h3 data-i18n="p3_h">اللغة العربية</h3><p data-i18n="p3_t">قراءة وكتابة ومحادثة وقواعد، للأطفال وللناطقين بغيرها.</p></article>
@@ -52,7 +52,7 @@
   </section>
 
   <section id="why" class="section tint">
-    <h2 data-i18n="why_h">لماذا مسار الفردوس؟</h2>
+    <h2 data-i18n="why_h">لماذا الفردوس الأعلى؟</h2>
     <ul class="why">
       <li><strong data-i18n="w1_h">حصة فردية</strong><span data-i18n="w1_t">المعلم معك وحدك، فيركّز على مستواك.</span></li>
       <li><strong data-i18n="w2_h">مواعيد مرنة</strong><span data-i18n="w2_t">تختار الوقت المناسب لك ولأسرتك.</span></li>
@@ -74,12 +74,13 @@
   </section>
 </main>
 
-<footer><span data-i18n="footer">© مسار الفردوس. جميع الحقوق محفوظة.</span></footer>
+<footer><span data-i18n="footer">© الفردوس الأعلى. جميع الحقوق محفوظة.</span></footer>
 <div id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script src="script.js"></script>
 <script src="auth.js"></script>
 <script src="teachers-public.js"></script>
+<script src="programs-public.js"></script>
 </body>
 </html>

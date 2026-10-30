@@ -19,6 +19,10 @@
       rate: "محاولات كتير. استنى شوية وجرّب تاني.",
       generic: "حصلت مشكلة. جرّب تاني بعد شوية.",
       saved: "تم حفظ التغييرات.",
+      resetSent: "لو الإيميل ده مسجّل عندنا، هنبعت لك رابط لاختيار كلمة مرور جديدة. بص في بريدك (وفولدر Spam).",
+      linkExpired: "الرابط منتهي أو غير صالح. اطلب رابط جديد.",
+      passChanged: "تم تغيير كلمة المرور.",
+      enrollLink: "التسجيل في البرامج",
       adminLink: "لوحة الإدارة", teacherLink: "لوحة المعلم",
       student: "طالب", parent: "ولي أمر", teacher: "معلم", admin: "مدير الأكاديمية"
     },
@@ -34,18 +38,26 @@
       rate: "Too many attempts. Please wait a moment and try again.",
       generic: "Something went wrong. Please try again shortly.",
       saved: "Changes saved.",
+      resetSent: "If this email is registered, we will send you a link to choose a new password. Check your inbox (and Spam).",
+      linkExpired: "The link is expired or invalid. Please request a new one.",
+      passChanged: "Your password has been changed.",
+      enrollLink: "Enroll in programs",
       adminLink: "Admin dashboard", teacherLink: "Teacher dashboard",
       student: "Student", parent: "Parent", teacher: "Teacher", admin: "Academy director"
     }
   };
   function t(k) { return M[lang()][k]; }
-  function show(kind, key) {
-    if (!msg) return;
-    msg.className = "msg " + kind;
-    msg.textContent = t(key);
-    msg.dataset.key = key;
+  function show(kind, key, el) {
+    el = el || msg;
+    if (!el) return;
+    el.className = "msg " + kind;
+    el.textContent = t(key);
+    el.dataset.key = key;
   }
-  document.addEventListener("af-lang", function () { if (msg && msg.dataset.key) msg.textContent = t(msg.dataset.key); renderRole(); });
+  document.addEventListener("af-lang", function () {
+    document.querySelectorAll(".msg").forEach(function (m) { if (m.dataset.key) m.textContent = t(m.dataset.key); });
+    renderRole();
+  });
 
   if (!window.supabase || !cfg) { show("err", "lib"); return; }
   var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_KEY);
@@ -58,7 +70,7 @@
     if (m.indexOf("rate limit") > -1 || m.indexOf("too many") > -1) return "rate";
     return "generic";
   }
-  function busy(b) { submit.disabled = b; }
+  function busy(b) { if (submit) submit.disabled = b; }
   function val(id) { return document.getElementById(id).value.trim(); }
   var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -69,7 +81,7 @@
     var box = document.getElementById("links");
     if (box && currentRole) {
       box.textContent = "";
-      var target = currentRole === "admin" ? ["admin.html", "adminLink"] : currentRole === "teacher" ? ["teacher.html", "teacherLink"] : null;
+      var target = currentRole === "admin" ? ["admin.html", "adminLink"] : currentRole === "teacher" ? ["teacher.html", "teacherLink"] : (currentRole === "student" || currentRole === "parent") ? ["enroll.html", "enrollLink"] : null;
       if (target) {
         var a = document.createElement("a");
         a.className = "btn";
@@ -149,5 +161,51 @@
           show("ok", "saved");
         });
     });
+  }
+  function newPassFlow(f, passId, pass2Id, msgEl, done) {
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var p1 = document.getElementById(passId).value, p2 = document.getElementById(pass2Id).value;
+      if (p1.length < 8) return show("err", "short", msgEl);
+      if (p1 !== p2) return show("err", "mismatch", msgEl);
+      var b = f.querySelector("button[type=submit]");
+      b.disabled = true;
+      sb.auth.updateUser({ password: p1 }).then(function (r) {
+        b.disabled = false;
+        if (r.error) { show("err", "generic", msgEl); msgEl.textContent += " [" + (r.error.message || "") + "]"; return; }
+        f.reset();
+        show("ok", "passChanged", msgEl);
+        if (done) done();
+      }).catch(function () { b.disabled = false; show("err", "generic", msgEl); });
+    });
+  }
+
+  if (page === "reset") {
+    var reqForm = document.getElementById("form"), newForm = document.getElementById("newForm");
+    var showNew = function () { reqForm.hidden = true; newForm.hidden = false; if (msg) { msg.textContent = ""; msg.dataset.key = ""; } };
+    if (/error_code|error_description/.test(window.location.hash)) show("err", "linkExpired");
+    if (/type=recovery/.test(window.location.hash)) showNew();
+    sb.auth.onAuthStateChange(function (ev) { if (ev === "PASSWORD_RECOVERY") showNew(); });
+    reqForm.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var email = val("email");
+      if (!email) return show("err", "fill");
+      if (!emailOk.test(email)) return show("err", "email");
+      var b = reqForm.querySelector("button[type=submit]");
+      b.disabled = true;
+      sb.auth.resetPasswordForEmail(email, { redirectTo: new URL("reset.html", window.location.href).href }).then(function (r) {
+        b.disabled = false;
+        if (r.error && mapError(r.error) === "rate") return show("err", "rate");
+        show("ok", "resetSent");
+      }).catch(function () { b.disabled = false; show("err", "generic"); });
+    });
+    newPassFlow(newForm, "newpass", "newpass2", msg, function () {
+      setTimeout(function () { window.location.href = "account.html"; }, 1500);
+    });
+  }
+
+  if (page === "account") {
+    var pwForm = document.getElementById("pwForm");
+    if (pwForm) newPassFlow(pwForm, "pw1", "pw2", document.getElementById("pwMsg"));
   }
 })();

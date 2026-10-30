@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>حسابي | مسار الفردوس</title>
+<title>حسابي | الفردوس الأعلى</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -11,13 +11,13 @@
 </head>
 <body data-page="account">
 <header class="top">
-  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span data-i18n="brand">مسار الفردوس</span></a>
+  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span data-i18n="brand">الفردوس الأعلى</span></a>
   <div class="actions" style="margin-inline-start:auto">
     <button class="lang" id="langBtn" type="button">English</button>
     <button class="btn ghost" id="logout" type="button" data-i18n="logout">تسجيل الخروج</button>
   </div>
 </header>
-<main class="auth-wrap">
+<main class="auth-wrap stack">
   <form id="form" class="auth-card" novalidate>
     <h1 data-i18n="acc_h">حسابي</h1>
     <p class="meta"><span data-i18n="acc_role">نوع الحساب:</span> <strong id="roleLabel">…</strong></p>
@@ -29,6 +29,15 @@
       <input id="phone" type="tel" autocomplete="tel" dir="ltr"></label>
     <button class="btn big" id="submit" type="submit" data-i18n="save">حفظ التغييرات</button>
     <p id="msg" class="msg" role="status" aria-live="polite"></p>
+  </form>
+  <form id="pwForm" class="auth-card" novalidate>
+    <h2 data-i18n="pw_h">تغيير كلمة المرور</h2>
+    <label><span data-i18n="new_pass">كلمة المرور الجديدة (8 حروف أو أكتر)</span>
+      <input id="pw1" type="password" autocomplete="new-password" minlength="8" dir="ltr"></label>
+    <label><span data-i18n="new_pass2">أعد كتابة كلمة المرور الجديدة</span>
+      <input id="pw2" type="password" autocomplete="new-password" dir="ltr"></label>
+    <button class="btn" type="submit" data-i18n="change_pass">تغيير كلمة المرور</button>
+    <p id="pwMsg" class="msg" role="status" aria-live="polite"></p>
   </form>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>

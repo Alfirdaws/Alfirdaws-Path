@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>لوحة الإدارة | مسار الفردوس</title>
+<title>لوحة الإدارة | الفردوس الأعلى</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -11,18 +11,38 @@
 </head>
 <body data-page="admin">
 <header class="top">
-  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>مسار الفردوس</span></a>
+  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>الفردوس الأعلى</span></a>
   <div class="actions" style="margin-inline-start:auto"><a class="btn ghost" href="account.html">حسابي</a></div>
 </header>
 <main class="auth-wrap stack">
   <section class="auth-card wide">
     <h1>لوحة الإدارة</h1>
     <p id="msg" class="msg" role="status" aria-live="polite"></p>
+    <h2>طلبات التسجيل</h2>
+    <p class="meta">اختاري المعلم ثم اضغطي "قبول". المعلمون المعروضين هم اللي مربوطين بالبرنامج.</p>
+    <div id="enrollments" class="rows"></div>
+  </section>
+  <section class="auth-card wide">
+    <h2>البرامج</h2>
+    <div id="programs" class="rows"></div>
+    <form id="progForm" class="tfields" novalidate>
+      <label><span>النوع</span>
+        <select id="p_cat"><option value="quran">القرآن</option><option value="arabic">اللغة العربية</option><option value="islamic">الدراسات الإسلامية</option><option value="other">أخرى</option></select></label>
+      <label><span>الاسم بالعربي</span><input id="p_ar" type="text" maxlength="120"></label>
+      <label><span>الاسم بالإنجليزي</span><input id="p_en" type="text" maxlength="120" dir="ltr"></label>
+      <label><span>الوصف بالعربي</span><input id="p_dar" type="text" maxlength="600"></label>
+      <label><span>الوصف بالإنجليزي</span><input id="p_den" type="text" maxlength="600" dir="ltr"></label>
+      <button class="btn" type="submit">إضافة برنامج</button>
+    </form>
+  </section>
+  <section class="auth-card wide">
     <h2>المعلمون</h2>
-    <p class="meta">المعلم بيظهر في الصفحة الرئيسية بعد ما تضغطي "نشر".</p>
+    <p class="meta">علّمي على البرامج اللي يدرّسها كل معلم، واضغطي "نشر" لإظهاره في الصفحة الرئيسية.</p>
     <div id="teachers" class="rows"></div>
+  </section>
+  <section class="auth-card wide">
     <h2>المستخدمون</h2>
-    <p class="meta">لتعيين معلم: خلّيه يسجّل حساب عادي الأول، وبعدين غيّري نوع حسابه إلى "معلم".</p>
+    <p class="meta">لتعيين معلم: خلّيه يسجّل حساب عادي الأول، وبعدين غيّري نوع حسابه إلى "معلم". زرار "رابط كلمة المرور" بيبعت للمستخدم إيميل يختار منه كلمة مرور جديدة.</p>
     <div id="users" class="rows"></div>
   </section>
 </main>

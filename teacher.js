@@ -50,8 +50,21 @@
       });
     });
   }
+  function loadStudents() {
+    return sb.from("enrollments").select("id,student_name,reviewed_at,programs(title_ar)").eq("teacher_id", uid).eq("status", "approved").then(function (r) {
+      var box = document.getElementById("students");
+      box.textContent = "";
+      if (r.error) return fail(msg2, r.error);
+      if (!r.data.length) { box.appendChild(h("p", "meta", "لسه ما فيش طلاب مسندين ليك.")); return; }
+      r.data.forEach(function (s) {
+        var row = h("div", "row");
+        row.appendChild(h("strong", "", s.student_name + " — " + (s.programs ? s.programs.title_ar : "")));
+        box.appendChild(row);
+      });
+    });
+  }
   function loadAll() {
-    return sb.from("teachers").select("display_name,bio,specialties,years_experience,is_published").eq("id", uid).single().then(fill).then(loadSlots);
+    return sb.from("teachers").select("display_name,bio,specialties,years_experience,is_published").eq("id", uid).single().then(fill).then(loadSlots).then(loadStudents);
   }
 
   document.getElementById("form").addEventListener("submit", function (ev) {
