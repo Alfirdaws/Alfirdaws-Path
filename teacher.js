@@ -23,12 +23,14 @@
     document.getElementById("bio").value = d.bio || "";
     document.querySelectorAll("#specs input").forEach(function (c) { c.checked = (d.specialties || []).indexOf(c.value) > -1; });
     document.getElementById("status").textContent = d.is_published ? "ظاهر للجمهور" : "غير ظاهر (الإدارة هتراجع بياناتك وتنشرها)";
+    if (window.AF_tdash) window.AF_tdash.set({ teacher: d });
   }
   function loadSlots() {
     return sb.from("teacher_availability").select("id,weekday,start_time,end_time").eq("teacher_id", uid).then(function (r) {
       var box = document.getElementById("slots");
       box.textContent = "";
       if (r.error) return fail(msg2, r.error);
+      if (window.AF_tdash) window.AF_tdash.set({ slots: r.data });
       if (!r.data.length) { box.appendChild(h("p", "meta", "لسه ما أضفتش مواعيد.")); return; }
       r.data.sort(function (a, b) {
         return ORDER.indexOf(a.weekday) - ORDER.indexOf(b.weekday) || String(a.start_time).localeCompare(String(b.start_time));
@@ -66,13 +68,14 @@
   function inp(type, value) { var i = h("input"); i.type = type; if (value !== undefined) i.value = value; return i; }
   function loadStudents() {
     return Promise.all([
-      sb.from("enrollments").select("id,student_name,progress_percent,progress_note,programs(title_ar)").eq("teacher_id", uid).eq("status", "approved"),
-      sb.from("lessons").select("id,enrollment_id,held_on,topic,attendance").order("held_on", { ascending: false })
+      sb.from("enrollments").select("id,student_name,progress_percent,progress_note,programs(title_ar,image_path)").eq("teacher_id", uid).eq("status", "approved"),
+      sb.from("lessons").select("id,enrollment_id,held_on,topic,homework,attendance,created_at").order("held_on", { ascending: false })
     ]).then(function (res) {
       var box = document.getElementById("students");
       box.textContent = "";
       if (res[0].error) return fail(msg3, res[0].error);
       if (res[1].error) return fail(msg3, res[1].error);
+      if (window.AF_tdash) window.AF_tdash.set({ students: res[0].data, lessons: res[1].data });
       if (!res[0].data.length) { box.appendChild(h("p", "meta", "لسه ما فيش طلاب مسندين ليك.")); return; }
       res[0].data.forEach(function (s) {
         var row = h("div", "row");
@@ -152,6 +155,10 @@
       });
     });
   }
+  document.addEventListener("af-open-student", function (ev) {
+    openIds[ev.detail] = true;
+    loadStudents().then(function () { document.getElementById("studentsSec").scrollIntoView({ behavior: "smooth" }); });
+  });
   function loadAll() {
     return sb.from("teachers").select("display_name,bio,specialties,years_experience,is_published").eq("id", uid).single().then(fill).then(loadSlots).then(loadStudents);
   }

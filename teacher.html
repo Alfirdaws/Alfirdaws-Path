@@ -3,21 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>لوحة المعلم | الفردوس الأعلى</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="dash-extra.css">
 </head>
-<body data-page="teacher">
-<header class="top">
-  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>الفردوس الأعلى</span></a>
-  <div class="actions" style="margin-inline-start:auto"><a class="btn ghost" href="account.html">حسابي</a></div>
-</header>
-<main class="auth-wrap stack">
-  <form id="form" class="auth-card wide" novalidate>
-    <h1>لوحة المعلم</h1>
-    <p class="meta">حالة ظهورك في الموقع: <span id="status" class="badge">…</span></p>
+<body data-page="teacher" class="adm">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="a-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="a-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="a-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="a-book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="a-clip" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h4"/></symbol>
+  <symbol id="a-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
+  <symbol id="a-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+  <symbol id="a-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="a-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="a-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="a-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="a-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3z"/></symbol>
+  <symbol id="a-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="a-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></symbol>
+  <symbol id="a-mega" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l8 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M19 9a4 4 0 0 1 0 6"/></symbol>
+  <symbol id="a-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="a-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="a-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+  <symbol id="a-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/></symbol>
+  <symbol id="a-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></symbol>
+  <symbol id="a-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+<div class="shell">
+  <aside class="side" id="side">
+    <a class="side-brand" href="index.html" aria-label="الفردوس الأعلى"><svg class="logo" viewBox="0 0 48 52" aria-hidden="true"><path d="M4 50V24C4 14 14 10 24 2c10 8 20 12 20 22v26z" fill="#0F5A3C"/><path d="M24 2c10 8 20 12 20 22v26M24 2C14 10 4 14 4 24v26" fill="none" stroke="#C8A24A" stroke-width="2"/><path d="M11 37c4-2 9-2 13 0 4-2 9-2 13 0v7c-4-2-9-2-13 0-4-2-9-2-13 0z" fill="#fff"/><path d="m24 14 2.5 5 5.5.7-4 3.8 1 5.5-5-2.7-5 2.7 1-5.5-4-3.8 5.5-.7z" fill="#C8A24A"/></svg><span><b>الفردوس الأعلى</b><small>لوحة المعلم</small></span></a>
+    <nav class="side-nav" id="nav">
+      <a href="#top" class="on"><svg class="ic"><use href="#a-home"/></svg><span>لوحة التحكم</span></a>
+      <a href="#studentsSec"><svg class="ic"><use href="#a-users"/></svg><span>طلابي</span></a>
+      <a href="#schedule"><svg class="ic"><use href="#a-cal"/></svg><span>مواعيدي</span></a>
+      <a href="#profile"><svg class="ic"><use href="#a-user"/></svg><span>ملفي الشخصي</span></a>
+      <a href="account.html"><svg class="ic"><use href="#a-gear"/></svg><span>حسابي</span></a>
+      <p class="grp">قريبًا</p>
+      <a class="soon" aria-disabled="true"><svg class="ic"><use href="#a-video"/></svg><span>الحصص المباشرة</span><em>قريبًا</em></a>
+      <a class="soon" aria-disabled="true"><svg class="ic"><use href="#a-clip"/></svg><span>الواجبات والاختبارات</span><em>قريبًا</em></a>
+      <a class="soon" aria-disabled="true"><svg class="ic"><use href="#a-mega"/></svg><span>الرسائل</span><em>قريبًا</em></a>
+    </nav>
+    <a class="side-site" href="index.html"><svg class="ic"><use href="#a-ext"/></svg><span>عرض الموقع</span></a>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+  <div class="main">
+    <header class="bar">
+      <button class="icon-btn menu" id="sideBtn" type="button" aria-label="القائمة"><svg class="ic"><use href="#a-menu"/></svg></button>
+      <label class="search"><svg class="ic"><use href="#a-search"/></svg><input id="tq" type="search" placeholder="ابحثي عن طالب أو برنامج..." autocomplete="off" aria-label="بحث"></label>
+      <a class="me" href="account.html"><span class="av" id="meAv">م</span><span class="me-t"><b id="meName">…</b><small>معلم</small></span></a>
+      <button class="icon-btn" id="logout" type="button" aria-label="تسجيل الخروج"><svg class="ic"><use href="#a-out"/></svg></button>
+    </header>
+    <main class="content" id="top">
+      <div class="hello"><div><h1 id="hello">أهلًا بعودتك 👋</h1><p>خلّينا نخلّي النهاردة خطوة جديدة في رحلة طلابك.</p></div></div>
+      <p id="msg0" class="msg" role="status" aria-live="polite"></p>
+      <div class="cards5" id="tCards"></div>
+      <div class="grid2">
+        <section class="panel"><div class="ph"><h2>مواعيدي</h2><a class="lnk" href="#schedule">إدارة المواعيد</a></div><div id="tToday"></div></section>
+        <section class="panel"><div class="ph"><h2>طلابي وتقدّمهم</h2><a class="lnk" href="#studentsSec">إدارة الطلاب</a></div><div id="tStudents" class="stlist"></div></section>
+      </div>
+      <div class="grid3">
+        <section class="panel"><div class="ph"><h2>محتاجين انتباه</h2></div><div id="tAttn" class="attn"></div></section>
+        <section class="panel"><div class="ph"><h2>حصصي آخر 7 أيام</h2></div><div id="tChart" class="chart"></div></section>
+        <section class="panel"><div class="ph"><h2>آخر الواجبات اللي أعطيتيها</h2></div><div id="tHw"></div></section>
+      </div>
+      <section class="panel" style="margin-bottom:16px"><div class="ph"><h2>إجراءات سريعة</h2></div>
+        <div class="qa">
+          <a href="#studentsSec"><span class="ico-c"><svg class="ic"><use href="#a-file"/></svg></span>تسجيل حصة</a>
+          <a href="#schedule"><span class="ico-c"><svg class="ic"><use href="#a-cal"/></svg></span>إضافة موعد</a>
+          <a href="#profile"><span class="ico-c"><svg class="ic"><use href="#a-user"/></svg></span>تعديل ملفي</a>
+          <a href="index.html#teachers"><span class="ico-c"><svg class="ic"><use href="#a-ext"/></svg></span>شوفي ظهوري في الموقع</a>
+        </div>
+      </section>
+
+      <section class="panel" id="studentsSec">
+        <div class="ph"><h2>طلابي</h2></div><p class="meta">الطلاب اللي الإدارة أسندتهم ليك.</p>
+    <div id="students" class="rows"></div>
+    <p id="msg3" class="msg" role="status" aria-live="polite"></p>
+      </section>
+      <section class="panel" id="schedule" style="margin-top:16px">
+        <div class="ph"><h2>مواعيدك المتاحة</h2></div><p class="meta">المواعيد بتوقيت القاهرة.</p>
+    <div id="slots" class="rows"></div>
+    <form id="slotForm" class="tfields" novalidate>
+      <label><span>اليوم</span>
+        <select id="weekday">
+          <option value="6">السبت</option><option value="0">الأحد</option><option value="1">الاثنين</option>
+          <option value="2">الثلاثاء</option><option value="3">الأربعاء</option><option value="4">الخميس</option><option value="5">الجمعة</option>
+        </select></label>
+      <label><span>من</span><input id="start" type="time" dir="ltr" required></label>
+      <label><span>إلى</span><input id="end" type="time" dir="ltr" required></label>
+      <button class="btn" id="addSlot" type="submit">إضافة موعد</button>
+    </form>
+    <p id="msg2" class="msg" role="status" aria-live="polite"></p>
+      </section>
+      <section class="panel" id="profile" style="margin-top:16px">
+        <div class="ph"><h2>ملفي الشخصي</h2></div>
+        <form id="form" novalidate><p class="meta">حالة ظهورك في الموقع: <span id="status" class="badge">…</span></p>
     <label><span>الاسم الذي يظهر للطلاب</span>
       <input id="display_name" type="text" maxlength="80"></label>
     <label><span>سنوات الخبرة</span>
@@ -33,35 +120,16 @@
     <label><span>نبذة عنك (حتى 1000 حرف)</span>
       <textarea id="bio" maxlength="1000"></textarea></label>
     <button class="btn big" id="submit" type="submit">حفظ البيانات</button>
-    <p id="msg" class="msg" role="status" aria-live="polite"></p>
-  </form>
-  <section class="auth-card wide">
-    <h2>مواعيدك المتاحة</h2>
-    <p class="meta">المواعيد بتوقيت القاهرة.</p>
-    <div id="slots" class="rows"></div>
-    <form id="slotForm" class="tfields" novalidate>
-      <label><span>اليوم</span>
-        <select id="weekday">
-          <option value="6">السبت</option><option value="0">الأحد</option><option value="1">الاثنين</option>
-          <option value="2">الثلاثاء</option><option value="3">الأربعاء</option><option value="4">الخميس</option><option value="5">الجمعة</option>
-        </select></label>
-      <label><span>من</span><input id="start" type="time" dir="ltr" required></label>
-      <label><span>إلى</span><input id="end" type="time" dir="ltr" required></label>
-      <button class="btn" id="addSlot" type="submit">إضافة موعد</button>
-    </form>
-    <p id="msg2" class="msg" role="status" aria-live="polite"></p>
-  </section>
-  <section class="auth-card wide">
-    <h2>طلابي</h2>
-    <p class="meta">الطلاب اللي الإدارة أسندتهم ليك.</p>
-    <div id="students" class="rows"></div>
-    <p id="msg3" class="msg" role="status" aria-live="polite"></p>
-  </section>
-</main>
+    <p id="msg" class="msg" role="status" aria-live="polite"></p></form>
+      </section>
+    </main>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script src="script.js"></script>
 <script src="auth.js"></script>
+<script src="teacher-dash.js"></script>
 <script src="teacher.js"></script>
 </body>
 </html>
