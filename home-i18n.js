@@ -1,5 +1,6 @@
 // English texts for the new home page (Arabic texts are read from index.html)
 window.AF_EXTRA_EN = {
+  p1m_h: "Quran Memorization and Tajweed",
   cat_quran: "Quran", cat_arabic: "Arabic", cat_islamic: "Islamic", cat_kids: "For Kids", p5_h: "Quran for Kids (4-12 years)",
   trust_rating: "Student rating",
   trust_students: "students worldwide",
