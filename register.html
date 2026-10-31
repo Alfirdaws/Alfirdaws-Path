@@ -3,31 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>إنشاء حساب | الفردوس الأعلى</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="register">
-<header class="top">
-  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span data-i18n="brand">الفردوس الأعلى</span></a>
-  <div class="actions" style="margin-inline-start:auto">
-    <button class="lang" id="langBtn" type="button">English</button>
-    <a class="btn ghost" href="login.html" data-i18n="login">تسجيل الدخول</a>
-  </div>
-</header>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="AlFirdaws Al-A’la"><svg class="logo" viewBox="0 0 48 52" aria-hidden="true"><path d="M4 50V24C4 14 14 10 24 2c10 8 20 12 20 22v26z" fill="#0F5A3C"/><path d="M24 2c10 8 20 12 20 22v26M24 2C14 10 4 14 4 24v26" fill="none" stroke="#C8A24A" stroke-width="2"/><path d="M11 37c4-2 9-2 13 0 4-2 9-2 13 0v7c-4-2-9-2-13 0-4-2-9-2-13 0z" fill="#fff"/><path d="m24 14 2.5 5 5.5.7-4 3.8 1 5.5-5-2.7-5 2.7 1-5.5-4-3.8 5.5-.7z" fill="#C8A24A"/></svg><span><b data-i18n="brand">الفردوس الأعلى</b><small data-i18n="tagline">تعلّم. افهم. انمُ.</small></span></a>
+  <div class="actions" style="margin-inline-start:auto"><button class="lang" id="langBtn" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg><span id="langLabel">English</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><a class="btn ghost" href="login.html" data-i18n="login">تسجيل الدخول</a></div>
+</div></header>
 <main class="auth-wrap">
   <form id="form" class="auth-card" novalidate>
-    <h1 data-i18n="reg_h">إنشاء حساب جديد</h1>
-    <label><span data-i18n="f_name">الاسم الكامل</span>
-      <input id="full_name" type="text" autocomplete="name" required></label>
-    <label><span data-i18n="f_role">أنا</span>
-      <select id="role"><option value="student" data-i18n="r_student">طالب</option><option value="parent" data-i18n="r_parent">ولي أمر</option></select></label>
-    <label><span data-i18n="f_phone">رقم الموبايل (واتساب)</span>
-      <input id="phone" type="tel" autocomplete="tel" dir="ltr" required></label>
+    <h1 data-i18n="reg_invite_h">إنشاء حساب</h1>
+    <p class="meta" data-i18n="reg_note">التسجيل متاح لمن وصلته دعوة من إدارة الأكاديمية. لو ما عندكش دعوة، تواصل معنا.</p>
     <label><span data-i18n="f_email">البريد الإلكتروني</span>
       <input id="email" type="email" autocomplete="email" dir="ltr" required></label>
+    <label><span data-i18n="f_key">مفتاح الدعوة</span>
+      <input id="invite_key" type="text" autocomplete="off" dir="ltr" placeholder="XXXX-XXXX-XXXX" maxlength="30" required></label>
     <label><span data-i18n="f_pass">كلمة المرور (8 حروف أو أكتر)</span>
       <input id="password" type="password" autocomplete="new-password" minlength="8" dir="ltr" required></label>
     <label><span data-i18n="f_pass2">أعد كتابة كلمة المرور</span>
@@ -35,6 +30,7 @@
     <button class="btn big" id="submit" type="submit" data-i18n="reg_btn">إنشاء الحساب</button>
     <p id="msg" class="msg" role="status" aria-live="polite"></p>
     <p class="alt"><span data-i18n="have_acc">عندك حساب؟</span> <a href="login.html" data-i18n="login">تسجيل الدخول</a></p>
+    <p class="alt"><a href="index.html#contact" data-i18n="contact_us">تواصل معنا</a></p>
   </form>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>

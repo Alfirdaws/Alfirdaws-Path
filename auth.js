@@ -19,6 +19,9 @@
       rate: "محاولات كتير. استنى شوية وجرّب تاني.",
       generic: "حصلت مشكلة. جرّب تاني بعد شوية.",
       saved: "تم حفظ التغييرات.",
+      badInvite: "الدعوة غير صحيحة أو منتهية. اتأكد من الإيميل ومفتاح الدعوة، أو اطلب من الإدارة مفتاح جديد.",
+      exists: "الإيميل ده عنده حساب بالفعل. سجّل دخولك.",
+      banned: "الحساب موقوف. تواصل مع إدارة الأكاديمية.",
       resetSent: "لو الإيميل ده مسجّل عندنا، هنبعت لك رابط لاختيار كلمة مرور جديدة. بص في بريدك (وفولدر Spam).",
       linkExpired: "الرابط منتهي أو غير صالح. اطلب رابط جديد.",
       passChanged: "تم تغيير كلمة المرور.",
@@ -38,6 +41,9 @@
       rate: "Too many attempts. Please wait a moment and try again.",
       generic: "Something went wrong. Please try again shortly.",
       saved: "Changes saved.",
+      badInvite: "The invitation is invalid or expired. Check the email and the invitation key, or ask the academy for a new key.",
+      exists: "This email already has an account. Please log in.",
+      banned: "This account is suspended. Please contact the academy.",
       resetSent: "If this email is registered, we will send you a link to choose a new password. Check your inbox (and Spam).",
       linkExpired: "The link is expired or invalid. Please request a new one.",
       passChanged: "Your password has been changed.",
@@ -66,6 +72,7 @@
   function mapError(e) {
     var m = (e && e.message || "").toLowerCase();
     if (m.indexOf("invalid login") > -1) return "badLogin";
+    if (m.indexOf("banned") > -1) return "banned";
     if (m.indexOf("not confirmed") > -1) return "notConfirmed";
     if (m.indexOf("rate limit") > -1 || m.indexOf("too many") > -1) return "rate";
     return "generic";
@@ -96,23 +103,24 @@
   if (page === "register") {
     form.addEventListener("submit", function (ev) {
       ev.preventDefault();
-      var name = val("full_name"), phone = val("phone"), email = val("email");
+      var email = val("email").toLowerCase(), key = val("invite_key");
       var pass = document.getElementById("password").value, pass2 = document.getElementById("password2").value;
-      var role = document.getElementById("role").value === "parent" ? "parent" : "student";
-      if (!name || !phone || !email || !pass) return show("err", "fill");
+      if (!email || !key || !pass) return show("err", "fill");
       if (!emailOk.test(email)) return show("err", "email");
       if (pass.length < 8) return show("err", "short");
       if (pass !== pass2) return show("err", "mismatch");
       busy(true);
       sb.auth.signUp({
         email: email, password: pass,
-        options: {
-          data: { full_name: name, phone: phone, role: role, preferred_language: lang() },
-          emailRedirectTo: new URL("login.html", window.location.href).href
-        }
+        options: { data: { invite_key: key, preferred_language: lang() } }
       }).then(function (r) {
         busy(false);
-        if (r.error) return show("err", mapError(r.error));
+        if (r.error) {
+          var m = (r.error.message || "").toLowerCase();
+          if (m.indexOf("already") > -1) return show("err", "exists");
+          if (m.indexOf("database") > -1 || r.error.status === 500 || r.error.status === 422) return show("err", "badInvite");
+          return show("err", mapError(r.error));
+        }
         if (r.data && r.data.session) { window.location.href = "account.html"; return; }
         form.reset();
         show("ok", "checkMail");
@@ -208,5 +216,22 @@
   if (page === "account") {
     var pwForm = document.getElementById("pwForm");
     if (pwForm) newPassFlow(pwForm, "pw1", "pw2", document.getElementById("pwMsg"));
+  }
+  if (page === "setpass") {
+    sb.auth.getSession().then(function (r) { if (!(r.data && r.data.session)) window.location.href = "login.html"; });
+    newPassFlow(form, "newpass", "newpass2", msg, function () {
+      setTimeout(function () { window.location.href = "account.html"; }, 1200);
+    });
+  }
+
+  // Accounts with a temporary password must choose their own before using the site
+  if (["account", "student", "teacher", "enroll"].indexOf(page) > -1) {
+    sb.auth.getSession().then(function (r) {
+      var s = r.data && r.data.session;
+      if (!s) return;
+      return sb.from("profiles").select("password_set").eq("id", s.user.id).single().then(function (p) {
+        if (p.data && p.data.password_set === false) window.location.href = "set-password.html";
+      });
+    });
   }
 })();

@@ -96,3 +96,30 @@ details.full .tfields{margin-top:12px}
 .filters{display:flex;flex-wrap:wrap;gap:10px}
 .filters input,.filters select{font:inherit;padding:8px 10px;border:1px solid #9DB5AB;border-radius:6px;background:#fff}
 .contact-links{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 16px}
+
+/* ===== unified design (matches the home page) ===== */
+:root{--green:#0F5A3C;--green2:#146B49;--g900:#0B3B2B;--gold:#C8A24A;--ink:#14251E;--tint:#E7F2EC;--cream:#FBF7EE;--line:#E6E2D6;--serif:"Playfair Display","Amiri",Georgia,serif;--sans:"Inter","Tajawal",system-ui,sans-serif}
+body{font-family:var(--sans);font-size:16px;line-height:1.7}
+h1,h2,h3{font-family:var(--serif);color:var(--g900);line-height:1.25}
+.top{display:block;padding:0;gap:0;background:rgba(255,255,255,.97);border-bottom:1px solid #EFEBE0}
+.top .wrap{max-width:1240px;margin:0 auto;padding:10px 24px;min-height:84px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-size:inherit;font-weight:400}
+.brand-mark{display:none}
+.logo{width:42px;height:46px}
+.brand b{display:block;font-family:var(--serif);font-size:1.3rem;color:var(--g900);line-height:1.1}
+.brand small{display:block;font-size:.72rem;color:#5A6B63;margin-top:2px}
+.ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.lang{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:.92rem;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer;color:var(--ink);text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:600;border-width:1.5px;border-radius:8px;padding:10px 22px}
+.btn.ghost{background:#fff;color:var(--green)}
+.btn.ghost:hover{background:var(--tint)}
+.btn.big{padding:14px 28px;font-size:1rem}
+.auth-wrap{background:radial-gradient(900px 500px at 85% 0,#fff 0,transparent 60%),var(--cream);min-height:calc(100vh - 84px)}
+.auth-card{border-radius:18px;border:1px solid var(--line);border-top:4px solid var(--gold);box-shadow:0 14px 40px rgba(11,59,43,.08)}
+.auth-card h1{font-size:1.9rem;color:var(--green)}
+.auth-card input,.auth-card select,.auth-card textarea{border-radius:8px}
+.stat b{font-family:var(--serif)}
+@media(max-width:620px){.brand small{display:none}}
+.credbox{background:#FFF8E1;border:1px solid #E4CF9A;border-radius:10px;padding:14px;margin:12px 0}
+.credbox pre{white-space:pre-wrap;font-family:inherit;margin:0 0 10px;overflow-wrap:anywhere}
+.lockbadge{font-weight:700}

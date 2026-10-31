@@ -1,6 +1,6 @@
 (function () {
   var T = { ar: {}, en: {
-    brand:"AlFirdaws Al-A’la", nav_programs:"Programs", nav_why:"Why us", nav_teachers:"Teachers", nav_contact:"Contact",
+    brand:"AlFirdaws Al-A’la", tagline:"Learn. Understand. Grow.", nav_programs:"Programs", nav_why:"Why us", nav_teachers:"Teachers", nav_contact:"Contact",
     login:"Log in", register:"Register now", see_programs:"See programs",
     hero_title:"Learn the Quran and Arabic with a teacher just for you",
     hero_sub:"Live 1-on-1 online classes for children and adults, at a time that suits you.",
@@ -26,7 +26,11 @@
     send_link:"Send reset link", new_pass_h:"Choose a new password", new_pass:"New password (8 characters or more)", new_pass2:"Repeat the new password", save_pass:"Save new password",
     pw_h:"Change password", change_pass:"Change password", nav_account:"My account",
     enroll_h:"Enroll in a program", enroll_intro:"Choose a program and send your request. The academy will contact you to confirm and arrange payment.",
-    e_program:"Program", e_notes:"Notes (optional)", e_send:"Send request", e_my:"My requests", stu_h:"Student dashboard"
+    e_program:"Program", e_notes:"Notes (optional)", e_send:"Send request", e_my:"My requests", stu_h:"Student dashboard",
+    reg_invite_h:"Create your account", reg_note:"Registration is by invitation from the academy. If you do not have an invitation, contact us.",
+    f_key:"Invitation key", have_invite:"Have an invitation?", forgot_admin:"Forgot your password? Contact the academy to reset it.",
+    forgot_staff:"Director: reset by email", set_h:"Choose your own password", set_sub:"For your security, please choose a new password before you continue.",
+    contact_us:"Contact us"
   } };
   if (window.AF_EXTRA_EN) Object.keys(window.AF_EXTRA_EN).forEach(function (k) { T.en[k] = window.AF_EXTRA_EN[k]; });
   var els = document.querySelectorAll("[data-i18n]");

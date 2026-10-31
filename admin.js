@@ -13,7 +13,7 @@
   ];
   var me = null;
   var EXT = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
-  var S = { users: [], teachers: [], programs: [], tp: [], enr: [], settings: {}, stats: null };
+  var S = { users: [], teachers: [], programs: [], tp: [], enr: [], settings: {}, stats: null, invites: [] };
 
   function h(tag, cls, text) {
     var e = document.createElement(tag);
@@ -193,6 +193,72 @@
     });
   }
 
+  var SITE = new URL("register.html", window.location.href).href;
+  function showCred(text) {
+    el("credText").textContent = text;
+    el("credBox").hidden = false;
+    el("credBox").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  el("credCopy").addEventListener("click", function () {
+    var t = el("credText").textContent;
+    function ok() { say("ok", "تم نسخ الرسالة. الصقيها في واتساب."); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, function () { say("err", "ما قدرتش أنسخ. حددي النص وانسخيه بنفسك."); });
+    else { var ta = h("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); ok(); } catch (e) { say("err", "ما قدرتش أنسخ. حددي النص وانسخيه بنفسك."); } document.body.removeChild(ta); }
+  });
+  function inviteMessage(name, email, key) {
+    return "السلام عليكم " + name + "،\nتم إنشاء دعوة لك في أكاديمية الفردوس الأعلى.\n\nافتحي الرابط:\n" + SITE +
+      "\n\nالإيميل: " + email + "\nمفتاح الدعوة: " + key + "\n\nاختاري كلمة مرور خاصة بيكِ (8 حروف أو أكتر). المفتاح صالح 14 يوم ولمرة واحدة.";
+  }
+  function resetMessage(name, temp) {
+    return "السلام عليكم " + name + "،\nتم إعادة تعيين كلمة المرور الخاصة بك في أكاديمية الفردوس الأعلى.\nكلمة المرور المؤقتة: " + temp +
+      "\nادخلي بها من صفحة تسجيل الدخول، وهيطلب منك الموقع تختاري كلمة مرور جديدة.";
+  }
+
+  el("inviteForm").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var name = el("inv_name").value.trim(), email = el("inv_email").value.trim().toLowerCase();
+    if (!name) return say("err", "اكتبي الاسم.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return say("err", "الإيميل مش مكتوب صح.");
+    var btn = el("inviteSubmit");
+    btn.disabled = true;
+    sb.rpc("admin_create_invite", { p_email: email, p_full_name: name, p_role: el("inv_role").value, p_phone: el("inv_phone").value.trim() || null }).then(function (r) {
+      btn.disabled = false;
+      if (r.error) return fail(r.error);
+      el("inviteForm").reset();
+      showCred(inviteMessage(name, email, r.data));
+      say("ok", "تم إنشاء الدعوة. انسخي الرسالة وابعتيها. المفتاح بيظهر مرة واحدة بس.");
+      return load();
+    });
+  });
+
+  function renderInvites() {
+    var box = el("invites");
+    box.textContent = "";
+    if (!S.invites.length) { box.appendChild(h("p", "meta", "مفيش دعوات معلّقة.")); return; }
+    S.invites.forEach(function (i) {
+      var row = h("div", "row");
+      var exp = new Date(i.expires_at);
+      var expired = exp < new Date();
+      row.appendChild(info("🔓 " + i.full_name + " (" + ROLE[i.role] + ")", i.email + (i.phone ? "  |  " + i.phone : "") + "  |  " + (expired ? "منتهية" : "تنتهي " + exp.toLocaleDateString("ar-EG"))));
+      var re = h("button", "btn small", "مفتاح جديد"); re.type = "button";
+      re.addEventListener("click", function () {
+        sb.rpc("admin_create_invite", { p_email: i.email, p_full_name: i.full_name, p_role: i.role, p_phone: i.phone }).then(function (r) {
+          if (r.error) return fail(r.error);
+          showCred(inviteMessage(i.full_name, i.email, r.data));
+          say("ok", "تم إنشاء مفتاح جديد. القديم بطل يشتغل.");
+          return load();
+        });
+      });
+      var del = h("button", "btn ghost small", "حذف الدعوة"); del.type = "button";
+      del.addEventListener("click", function () {
+        if (!window.confirm("حذف دعوة " + i.email + "؟")) return;
+        sb.rpc("admin_delete_invite", { p_email: i.email }).then(done("تم حذف الدعوة."));
+      });
+      row.appendChild(re); row.appendChild(del);
+      box.appendChild(row);
+    });
+  }
+
   function renderUsers() {
     var box = el("users");
     box.textContent = "";
@@ -207,7 +273,9 @@
     if (!list.length) { box.appendChild(h("p", "meta", "مفيش نتائج.")); return; }
     list.forEach(function (u) {
       var row = h("div", "row");
-      var sub = (u.email || "") + (u.phone ? "  |  " + u.phone : "") + ((u.role === "student" || u.role === "parent") ? "  |  برامج مقبولة: " + (counts[u.id] || 0) : "");
+      var lock = u.password_set === false ? "🔓 كلمة مؤقتة" : "🔒 كلمة مروره خاصة به";
+      var sub = (u.email || "") + (u.phone ? "  |  " + u.phone : "") + "  |  " + lock + (u.is_disabled ? "  |  موقوف" : "") +
+        ((u.role === "student" || u.role === "parent") ? "  |  برامج مقبولة: " + (counts[u.id] || 0) : "");
       row.appendChild(info(u.full_name || "(بدون اسم)", sub));
       var sel = h("select");
       Object.keys(ROLE).forEach(function (k) { var o = h("option", "", ROLE[k]); o.value = k; sel.appendChild(o); });
@@ -224,16 +292,29 @@
         });
       });
       row.appendChild(sel);
-      if (u.email) {
-        var rb = h("button", "btn ghost small", "رابط كلمة المرور"); rb.type = "button";
+      if (u.id !== me && u.role !== "admin") {
+        var rb = h("button", "btn ghost small", "إعادة تعيين كلمة المرور"); rb.type = "button";
         rb.addEventListener("click", function () {
-          if (!window.confirm("إرسال رابط إعادة تعيين كلمة المرور إلى " + u.email + "؟")) return;
-          sb.auth.resetPasswordForEmail(u.email, { redirectTo: new URL("reset.html", window.location.href).href }).then(function (r) {
+          if (!window.confirm("إعادة تعيين كلمة مرور " + (u.full_name || u.email) + "؟ هيتم تسجيل خروجه من كل الأجهزة.")) return;
+          sb.rpc("admin_reset_password", { target: u.id }).then(function (r) {
             if (r.error) return fail(r.error);
-            say("ok", "تم إرسال الرابط إلى " + u.email);
+            showCred(resetMessage(u.full_name || "", r.data));
+            say("ok", "تم. انسخي الرسالة وابعتيها. الكلمة المؤقتة بتظهر مرة واحدة بس.");
+            return load();
           });
         });
-        row.appendChild(rb);
+        var db = h("button", "btn ghost small", u.is_disabled ? "تفعيل الحساب" : "إيقاف الحساب"); db.type = "button";
+        db.addEventListener("click", function () {
+          if (!window.confirm((u.is_disabled ? "تفعيل" : "إيقاف") + " حساب " + (u.full_name || u.email) + "؟")) return;
+          sb.rpc("admin_set_disabled", { target: u.id, disabled: !u.is_disabled }).then(done(u.is_disabled ? "تم تفعيل الحساب." : "تم إيقاف الحساب."));
+        });
+        var xb = h("button", "btn ghost small", "حذف الحساب"); xb.type = "button";
+        xb.addEventListener("click", function () {
+          var t = window.prompt("تحذير: حذف الحساب هيمسح كل بياناته (التسجيلات والحصص والتقدم) ومش هيرجع.\nلتأكيد الحذف اكتبي كلمة: حذف");
+          if (t !== "حذف") return say("err", "ما اتحذفش. لازم تكتبي كلمة: حذف");
+          sb.rpc("admin_delete_user", { target: u.id }).then(done("تم حذف الحساب."));
+        });
+        row.appendChild(rb); row.appendChild(db); row.appendChild(xb);
       }
       box.appendChild(row);
     });
@@ -289,21 +370,22 @@
     }).catch(function () { btn.disabled = false; say("err", "حصلت مشكلة. جرّب تاني بعد شوية."); });
   });
 
-  function renderAll() { renderStats(); renderEnrollments(); renderPrograms(); renderTeachers(); renderUsers(); renderContent(); }
+  function renderAll() { renderStats(); renderEnrollments(); renderPrograms(); renderTeachers(); renderInvites(); renderUsers(); renderContent(); }
   function load() {
     return Promise.all([
-      sb.from("profiles").select("id,full_name,email,phone,role,created_at").order("created_at", { ascending: false }),
+      sb.from("profiles").select("id,full_name,email,phone,role,password_set,is_disabled,created_at").order("created_at", { ascending: false }),
       sb.from("teachers").select("id,display_name,is_published"),
       sb.from("programs").select("id,category,title_ar,title_en,description_ar,description_en,image_path,is_active,sort_order").order("sort_order"),
       sb.from("teacher_programs").select("teacher_id,program_id"),
       sb.from("enrollments").select("id,account_id,program_id,teacher_id,student_name,notes,status,created_at"),
       sb.from("site_settings").select("key,value"),
-      sb.rpc("admin_stats")
+      sb.rpc("admin_stats"),
+      sb.from("invites").select("email,full_name,phone,role,created_at,expires_at,used_at").is("used_at", null).order("created_at", { ascending: false })
     ]).then(function (res) {
       for (var i = 0; i < res.length; i++) if (res[i].error) return fail(res[i].error);
       S.users = res[0].data; S.teachers = res[1].data; S.programs = res[2].data; S.tp = res[3].data; S.enr = res[4].data;
       S.settings = {}; res[5].data.forEach(function (x) { S.settings[x.key] = x.value; });
-      S.stats = res[6].data;
+      S.stats = res[6].data; S.invites = res[7].data;
       renderAll();
     });
   }

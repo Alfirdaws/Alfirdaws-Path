@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>لوحة الإدارة | الفردوس الأعلى</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="admin">
-<header class="top">
-  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>الفردوس الأعلى</span></a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="AlFirdaws Al-A’la"><svg class="logo" viewBox="0 0 48 52" aria-hidden="true"><path d="M4 50V24C4 14 14 10 24 2c10 8 20 12 20 22v26z" fill="#0F5A3C"/><path d="M24 2c10 8 20 12 20 22v26M24 2C14 10 4 14 4 24v26" fill="none" stroke="#C8A24A" stroke-width="2"/><path d="M11 37c4-2 9-2 13 0 4-2 9-2 13 0v7c-4-2-9-2-13 0-4-2-9-2-13 0z" fill="#fff"/><path d="m24 14 2.5 5 5.5.7-4 3.8 1 5.5-5-2.7-5 2.7 1-5.5-4-3.8 5.5-.7z" fill="#C8A24A"/></svg><span><b>الفردوس الأعلى</b><small>تعلّم. افهم. انمُ.</small></span></a>
   <div class="actions" style="margin-inline-start:auto"><a class="btn ghost" href="account.html">حسابي</a></div>
-</header>
+</div></header>
 <main class="auth-wrap stack">
   <section class="auth-card wide">
     <h1>لوحة الإدارة</h1>
@@ -66,8 +67,24 @@
   </section>
 
   <section class="auth-card wide" data-panel="users" hidden>
+    <h2>دعوة مستخدم جديد</h2>
+    <p class="meta">اكتبي بيانات الشخص (طالب أو ولي أمر أو معلم). هيظهر لك <b>مفتاح دعوة</b> مرة واحدة، ابعتيه له على واتساب مع الإيميل. هو اللي يسجّل ويختار كلمة مروره بنفسه.</p>
+    <form id="inviteForm" class="tfields" novalidate>
+      <label><span>الاسم</span><input id="inv_name" type="text" maxlength="120"></label>
+      <label><span>النوع</span>
+        <select id="inv_role"><option value="student">طالب</option><option value="parent">ولي أمر</option><option value="teacher">معلم</option></select></label>
+      <label><span>الإيميل</span><input id="inv_email" type="email" dir="ltr" maxlength="254"></label>
+      <label><span>الموبايل (اختياري)</span><input id="inv_phone" type="text" dir="ltr" maxlength="30"></label>
+      <button class="btn" id="inviteSubmit" type="submit">إنشاء الدعوة</button>
+    </form>
+    <div id="credBox" class="credbox" hidden>
+      <pre id="credText"></pre>
+      <button class="btn small" id="credCopy" type="button">نسخ الرسالة</button>
+    </div>
+    <h2>دعوات بانتظار التسجيل 🔓</h2>
+    <div id="invites" class="rows"></div>
     <h2>المستخدمون</h2>
-    <p class="meta">لتعيين معلم: خلّيه يسجّل حساب عادي الأول، وبعدين غيّري نوع حسابه إلى "معلم". زرار "رابط كلمة المرور" بيبعت للمستخدم إيميل يختار منه كلمة مرور جديدة.</p>
+    <p class="meta">🔒 = المستخدم اختار كلمة مروره بنفسه. 🔓 = لسه بكلمة مؤقتة. "نسيت كلمة المرور" يعني تضغطي "إعادة تعيين" وتبعتي له الكلمة المؤقتة.</p>
     <div class="filters">
       <label><span>بحث</span><input id="uSearch" type="search" placeholder="اسم أو إيميل أو موبايل"></label>
       <label><span>النوع</span>
