@@ -13,7 +13,7 @@
   ];
   var me = null;
   var EXT = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
-  var S = { users: [], teachers: [], programs: [], tp: [], enr: [], settings: {}, stats: null, invites: [] };
+  var S = { users: [], teachers: [], programs: [], tp: [], enr: [], settings: {}, stats: null, invites: [], lessons: [] };
 
   function h(tag, cls, text) {
     var e = document.createElement(tag);
@@ -32,28 +32,36 @@
   function fail(e) { say("err", "حصلت مشكلة: " + ((e && e.message) || "")); }
   function done(text) { return function (r) { if (r.error) return fail(r.error); say("ok", text); return load(); }; }
 
-  // ---------- tabs
+  // ---------- navigation
   function showTab(name) {
     document.querySelectorAll("[data-panel]").forEach(function (p) { p.hidden = p.dataset.panel !== name; });
-    document.querySelectorAll("#tabs button").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.tab === name ? "true" : "false"); });
+    document.querySelectorAll("#nav [data-nav]").forEach(function (b) { b.classList.toggle("on", b.dataset.nav === name); });
+    document.body.classList.remove("side-open");
+    window.scrollTo(0, 0);
   }
-  document.querySelectorAll("#tabs button").forEach(function (b) {
-    b.addEventListener("click", function () { showTab(b.dataset.tab); });
+  document.querySelectorAll("#nav [data-nav]").forEach(function (b) {
+    b.addEventListener("click", function () { showTab(b.dataset.nav); });
   });
+  document.querySelectorAll("[data-go]").forEach(function (b) {
+    b.addEventListener("click", function () { showTab(b.dataset.go); });
+  });
+  el("sideBtn").addEventListener("click", function () { document.body.classList.toggle("side-open"); });
+  el("scrim").addEventListener("click", function () { document.body.classList.remove("side-open"); });
+  el("bell").addEventListener("click", function () { el("reqFilter").value = "pending"; renderEnrollments(); showTab("requests"); });
+  el("gSearch").addEventListener("keydown", function (ev) {
+    if (ev.key !== "Enter") return;
+    el("uSearch").value = el("gSearch").value.trim();
+    el("uRole").value = "all";
+    renderUsers();
+    showTab("users");
+  });
+  el("today").textContent = new Date().toLocaleDateString("ar-EG", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
   // ---------- overview
   function renderStats() {
-    var box = el("stats");
-    box.textContent = "";
-    if (!S.stats) return;
-    STAT_LABELS.forEach(function (p) {
-      var d = h("div", "stat");
-      d.appendChild(h("b", "", String(S.stats[p[0]] == null ? 0 : S.stats[p[0]])));
-      d.appendChild(h("span", "", p[1]));
-      box.appendChild(d);
-    });
-    var pend = S.stats.pending || 0;
-    el("tabReq").textContent = "الطلبات" + (pend ? " (" + pend + ")" : "");
+    var pend = (S.stats && S.stats.pending) || 0;
+    [el("navReqBadge"), el("bellBadge")].forEach(function (b) { b.textContent = String(pend); b.hidden = !pend; });
+    window.AF_dash.render(S, { imgUrl: imgUrl, go: showTab });
   }
 
   // ---------- requests
@@ -370,7 +378,21 @@
     }).catch(function () { btn.disabled = false; say("err", "حصلت مشكلة. جرّب تاني بعد شوية."); });
   });
 
-  function renderAll() { renderStats(); renderEnrollments(); renderPrograms(); renderTeachers(); renderInvites(); renderUsers(); renderContent(); }
+  var ATT = { attended: "حضر", absent: "غاب", excused: "اعتذر" };
+  function renderLessons() {
+    var box = el("lessonsList");
+    box.textContent = "";
+    var em = byId(S.enr), pm = byId(S.programs), tm = byId(S.teachers);
+    var list = (S.lessons || []).slice(0, 50);
+    if (!list.length) { box.appendChild(h("p", "meta", "لسه مفيش حصص مسجّلة.")); return; }
+    list.forEach(function (l) {
+      var e = em[l.enrollment_id] || {};
+      var row = h("div", "row");
+      row.appendChild(info(l.held_on + " — " + l.topic, (e.student_name || "") + " | " + (pm[e.program_id] ? pm[e.program_id].title_ar : "") + " | المعلم: " + (tm[e.teacher_id] ? (tm[e.teacher_id].display_name || "") : "—") + " | " + ATT[l.attendance]));
+      box.appendChild(row);
+    });
+  }
+  function renderAll() { renderStats(); renderEnrollments(); renderPrograms(); renderTeachers(); renderInvites(); renderUsers(); renderLessons(); renderContent(); }
   function load() {
     return Promise.all([
       sb.from("profiles").select("id,full_name,email,phone,role,password_set,is_disabled,created_at").order("created_at", { ascending: false }),
@@ -380,12 +402,13 @@
       sb.from("enrollments").select("id,account_id,program_id,teacher_id,student_name,notes,status,created_at"),
       sb.from("site_settings").select("key,value"),
       sb.rpc("admin_stats"),
-      sb.from("invites").select("email,full_name,phone,role,created_at,expires_at,used_at").is("used_at", null).order("created_at", { ascending: false })
+      sb.from("invites").select("email,full_name,phone,role,created_at,expires_at,used_at").is("used_at", null).order("created_at", { ascending: false }),
+      sb.from("lessons").select("id,enrollment_id,held_on,topic,attendance,created_at").order("created_at", { ascending: false }).limit(300)
     ]).then(function (res) {
       for (var i = 0; i < res.length; i++) if (res[i].error) return fail(res[i].error);
       S.users = res[0].data; S.teachers = res[1].data; S.programs = res[2].data; S.tp = res[3].data; S.enr = res[4].data;
       S.settings = {}; res[5].data.forEach(function (x) { S.settings[x.key] = x.value; });
-      S.stats = res[6].data; S.invites = res[7].data;
+      S.stats = res[6].data; S.invites = res[7].data; S.lessons = res[8].data;
       renderAll();
     });
   }
@@ -440,8 +463,12 @@
     var s = r.data && r.data.session;
     if (!s) { window.location.href = "login.html"; return; }
     me = s.user.id;
-    return sb.from("profiles").select("role").eq("id", me).single().then(function (p) {
+    return sb.from("profiles").select("role,full_name").eq("id", me).single().then(function (p) {
       if (p.error || !p.data || p.data.role !== "admin") { window.location.href = "account.html"; return; }
+      var nm = (p.data.full_name || "").trim();
+      el("meName").textContent = nm || "المديرة";
+      el("meAv").textContent = (nm || "م").charAt(0);
+      el("hello").textContent = "أهلًا بعودتك" + (nm ? "، " + nm.split(" ")[0] : "") + " 👋";
       return load();
     });
   }).catch(function () { say("err", "حصلت مشكلة. جرّب تاني بعد شوية."); });

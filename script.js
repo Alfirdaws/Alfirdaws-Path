@@ -54,5 +54,5 @@
   if (langBtn) langBtn.addEventListener("click", function () {
     setLang(document.documentElement.lang === "ar" ? "en" : "ar");
   });
-  try { if (localStorage.getItem("lang") === "en") setLang("en"); } catch (e) {}
+  try { if (page !== "admin" && page !== "teacher" && localStorage.getItem("lang") === "en") setLang("en"); } catch (e) {}
 })();

@@ -9,40 +9,91 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
 </head>
-<body data-page="admin">
-<header class="top"><div class="wrap">
-  <a class="brand" href="index.html" aria-label="AlFirdaws Al-A’la"><svg class="logo" viewBox="0 0 48 52" aria-hidden="true"><path d="M4 50V24C4 14 14 10 24 2c10 8 20 12 20 22v26z" fill="#0F5A3C"/><path d="M24 2c10 8 20 12 20 22v26M24 2C14 10 4 14 4 24v26" fill="none" stroke="#C8A24A" stroke-width="2"/><path d="M11 37c4-2 9-2 13 0 4-2 9-2 13 0v7c-4-2-9-2-13 0-4-2-9-2-13 0z" fill="#fff"/><path d="m24 14 2.5 5 5.5.7-4 3.8 1 5.5-5-2.7-5 2.7 1-5.5-4-3.8 5.5-.7z" fill="#C8A24A"/></svg><span><b>الفردوس الأعلى</b><small>تعلّم. افهم. انمُ.</small></span></a>
-  <div class="actions" style="margin-inline-start:auto"><a class="btn ghost" href="account.html">حسابي</a></div>
-</div></header>
-<main class="auth-wrap stack">
-  <section class="auth-card wide">
-    <h1>لوحة الإدارة</h1>
-    <div class="tabs" id="tabs" role="tablist">
-      <button type="button" data-tab="overview" aria-selected="true">نظرة عامة</button>
-      <button type="button" data-tab="requests" id="tabReq" aria-selected="false">الطلبات</button>
-      <button type="button" data-tab="programs" aria-selected="false">البرامج</button>
-      <button type="button" data-tab="teachers" aria-selected="false">المعلمون</button>
-      <button type="button" data-tab="users" aria-selected="false">المستخدمون</button>
-      <button type="button" data-tab="content" aria-selected="false">محتوى الموقع</button>
-    </div>
-    <p id="msg" class="msg" role="status" aria-live="polite"></p>
-  </section>
+<body data-page="admin" class="adm">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="a-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="a-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="a-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="a-book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="a-clip" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h4"/></symbol>
+  <symbol id="a-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
+  <symbol id="a-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+  <symbol id="a-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="a-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="a-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="a-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="a-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3z"/></symbol>
+  <symbol id="a-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="a-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></symbol>
+  <symbol id="a-mega" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l8 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M19 9a4 4 0 0 1 0 6"/></symbol>
+  <symbol id="a-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="a-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+</svg>
+<div class="shell">
+  <aside class="side" id="side">
+    <a class="side-brand" href="index.html" aria-label="الفردوس الأعلى">
+      <svg class="logo" viewBox="0 0 48 52" aria-hidden="true"><path d="M4 50V24C4 14 14 10 24 2c10 8 20 12 20 22v26z" fill="#0F5A3C"/><path d="M24 2c10 8 20 12 20 22v26M24 2C14 10 4 14 4 24v26" fill="none" stroke="#C8A24A" stroke-width="2"/><path d="M11 37c4-2 9-2 13 0 4-2 9-2 13 0v7c-4-2-9-2-13 0-4-2-9-2-13 0z" fill="#fff"/><path d="m24 14 2.5 5 5.5.7-4 3.8 1 5.5-5-2.7-5 2.7 1-5.5-4-3.8 5.5-.7z" fill="#C8A24A"/></svg>
+      <span><b>الفردوس الأعلى</b><small>لوحة الإدارة</small></span>
+    </a>
+    <nav class="side-nav" id="nav" aria-label="القائمة">
+      <button type="button" data-nav="overview"><svg class="ic"><use href="#a-home"/></svg><span>لوحة التحكم</span></button>
+      <p class="grp">الإدارة</p>
+      <button type="button" data-nav="users"><svg class="ic"><use href="#a-users"/></svg><span>المستخدمون</span></button>
+      <button type="button" data-nav="teachers"><svg class="ic"><use href="#a-cap"/></svg><span>المعلمون</span></button>
+      <button type="button" data-nav="programs"><svg class="ic"><use href="#a-book"/></svg><span>البرامج</span></button>
+      <button type="button" data-nav="requests"><svg class="ic"><use href="#a-clip"/></svg><span>طلبات التسجيل</span><i id="navReqBadge" class="nb" hidden>0</i></button>
+      <button type="button" data-nav="lessons"><svg class="ic"><use href="#a-file"/></svg><span>الحصص</span></button>
+      <p class="grp">قريبًا</p>
+      <button type="button" class="soon" disabled aria-disabled="true"><svg class="ic"><use href="#a-video"/></svg><span>الحصص المباشرة</span><em>قريبًا</em></button>
+      <button type="button" class="soon" disabled aria-disabled="true"><svg class="ic"><use href="#a-award"/></svg><span>الشهادات</span><em>قريبًا</em></button>
+      <button type="button" class="soon" disabled aria-disabled="true"><svg class="ic"><use href="#a-card"/></svg><span>المدفوعات والاشتراكات</span><em>قريبًا</em></button>
+      <button type="button" class="soon" disabled aria-disabled="true"><svg class="ic"><use href="#a-mega"/></svg><span>الإعلانات</span><em>قريبًا</em></button>
+      <p class="grp">النظام</p>
+      <button type="button" data-nav="content"><svg class="ic"><use href="#a-gear"/></svg><span>إعدادات الموقع</span></button>
+    </nav>
+    <a class="side-site" href="index.html"><svg class="ic"><use href="#a-ext"/></svg><span>عرض الموقع</span></a>
+  </aside>
+  <div class="scrim" id="scrim"></div>
 
-  <section class="auth-card wide" data-panel="overview">
-    <h2>نظرة عامة</h2>
-    <div id="stats" class="stats"></div>
-  </section>
+  <div class="main">
+    <header class="bar">
+      <button class="icon-btn menu" id="sideBtn" type="button" aria-label="القائمة"><svg class="ic"><use href="#a-menu"/></svg></button>
+      <label class="search"><svg class="ic"><use href="#a-search"/></svg><input id="gSearch" type="search" placeholder="ابحثي عن مستخدم بالاسم أو الإيميل..." aria-label="بحث"></label>
+      <button class="icon-btn" id="bell" type="button" aria-label="طلبات التسجيل الجديدة"><svg class="ic"><use href="#a-bell"/></svg><i class="nb dot" id="bellBadge" hidden>0</i></button>
+      <a class="me" href="account.html" aria-label="حسابي"><span class="av" id="meAv">م</span><span class="me-t"><b id="meName">…</b><small>مديرة الأكاديمية</small></span></a>
+    </header>
 
-  <section class="auth-card wide" data-panel="requests" hidden>
+    <main class="content">
+      <div class="hello">
+        <div><h1 id="hello">أهلًا بعودتك 👋</h1><p>ده ملخص اللي بيحصل في أكاديميتك النهاردة.</p></div>
+        <div class="datebox"><svg class="ic"><use href="#a-cal"/></svg><span id="today"></span></div>
+      </div>
+      <p id="msg" class="msg" role="status" aria-live="polite"></p>
+
+      <div data-panel="overview">
+        <div class="cards5" id="statCards"></div>
+        <div class="grid3">
+          <section class="panel"><div class="ph"><h2>نظرة على التسجيل (آخر 7 أيام)</h2></div><div class="legend" id="enrLegend"></div><div id="enrChart"></div></section>
+          <section class="panel"><div class="ph"><h2>التسجيلات حسب البرنامج</h2></div><div id="donut"></div></section>
+          <section class="panel"><div class="ph"><h2>آخر النشاطات</h2></div><div id="activity" class="acts"></div></section>
+        </div>
+        <div class="grid3">
+          <section class="panel"><div class="ph"><h2>أعلى البرامج تسجيلًا</h2><button class="lnk" type="button" data-go="programs">عرض الكل</button></div><div id="topCourses"></div></section>
+          <section class="panel"><div class="ph"><h2>الحصص آخر 7 أيام</h2></div><div id="lessonsChart"></div></section>
+          <section class="panel"><div class="ph"><h2>نظرة على النظام</h2></div><div id="sysOverview"></div></section>
+        </div>
+      </div>
+
+    <section class="panel" data-panel="requests" hidden>
     <h2>طلبات التسجيل</h2>
     <p class="meta">للقبول: اختاري المعلم ثم "قبول". المعلمون المعروضين هم اللي مربوطين بالبرنامج.</p>
     <div class="filters"><label><span>عرض:</span>
       <select id="reqFilter"><option value="pending">قيد المراجعة</option><option value="approved">المقبولة</option><option value="rejected">المرفوضة</option><option value="cancelled">الملغاة</option><option value="all">الكل</option></select></label></div>
     <div id="enrollments" class="rows"></div>
   </section>
-
-  <section class="auth-card wide" data-panel="programs" hidden>
+    <section class="panel" data-panel="programs" hidden>
     <h2>البرامج</h2>
     <p class="meta" id="progHint">لتعديل برنامج أو تغيير صورته اضغطي "تعديل" جنبه.</p>
     <div id="programs" class="rows"></div>
@@ -59,14 +110,12 @@
       <button class="btn ghost" id="progCancel" type="button" hidden>إلغاء التعديل</button>
     </form>
   </section>
-
-  <section class="auth-card wide" data-panel="teachers" hidden>
+    <section class="panel" data-panel="teachers" hidden>
     <h2>المعلمون</h2>
     <p class="meta">علّمي على البرامج اللي يدرّسها كل معلم، واضغطي "نشر" لإظهاره في الصفحة الرئيسية.</p>
     <div id="teachers" class="rows"></div>
   </section>
-
-  <section class="auth-card wide" data-panel="users" hidden>
+    <section class="panel" data-panel="users" hidden>
     <h2>دعوة مستخدم جديد</h2>
     <p class="meta">اكتبي بيانات الشخص (طالب أو ولي أمر أو معلم). هيظهر لك <b>مفتاح دعوة</b> مرة واحدة، ابعتيه له على واتساب مع الإيميل. هو اللي يسجّل ويختار كلمة مروره بنفسه.</p>
     <form id="inviteForm" class="tfields" novalidate>
@@ -92,8 +141,12 @@
     </div>
     <div id="users" class="rows"></div>
   </section>
-
-  <section class="auth-card wide" data-panel="content" hidden>
+    <section class="panel" data-panel="lessons" hidden>
+    <div class="ph"><h2>آخر الحصص المسجّلة</h2></div>
+    <p class="meta">آخر 50 حصة سجّلها المعلمون.</p>
+    <div id="lessonsList" class="rows"></div>
+  </section>
+    <section class="panel" data-panel="content" hidden>
     <h2>محتوى الموقع</h2>
     <p class="meta">اللي هتكتبيه هنا بيظهر في الصفحة الرئيسية. لو سبتي خانة فاضية، الموقع يستخدم النص الافتراضي.</p>
     <form id="contentForm" class="tfields" novalidate>
@@ -115,11 +168,14 @@
       <button class="btn" id="contentSubmit" type="submit">حفظ المحتوى</button>
     </form>
   </section>
-</main>
+    </main>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script src="script.js"></script>
 <script src="auth.js"></script>
+<script src="admin-dash.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
