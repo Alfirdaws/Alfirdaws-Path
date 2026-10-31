@@ -47,7 +47,7 @@
     <div id="programs" class="rows"></div>
     <form id="progForm" class="tfields" novalidate>
       <label><span>النوع</span>
-        <select id="p_cat"><option value="quran">القرآن</option><option value="arabic">اللغة العربية</option><option value="islamic">الدراسات الإسلامية</option><option value="other">أخرى</option></select></label>
+        <select id="p_cat"><option value="quran">القرآن</option><option value="arabic">اللغة العربية</option><option value="islamic">الدراسات الإسلامية</option><option value="kids">للأطفال</option><option value="other">أخرى</option></select></label>
       <label><span>الاسم بالعربي</span><input id="p_ar" type="text" maxlength="120"></label>
       <label><span>الاسم بالإنجليزي</span><input id="p_en" type="text" maxlength="120" dir="ltr"></label>
       <label class="full"><span>الوصف بالعربي</span><textarea id="p_dar" maxlength="600"></textarea></label>
@@ -80,6 +80,10 @@
     <h2>محتوى الموقع</h2>
     <p class="meta">اللي هتكتبيه هنا بيظهر في الصفحة الرئيسية. لو سبتي خانة فاضية، الموقع يستخدم النص الافتراضي.</p>
     <form id="contentForm" class="tfields" novalidate>
+      <label><span>عدد الطلاب (رقم فقط، بيظهر مع +)</span><input id="s_stat_students" type="text" inputmode="numeric" maxlength="7" dir="ltr"></label>
+      <label><span>عدد الدول</span><input id="s_stat_countries" type="text" inputmode="numeric" maxlength="4" dir="ltr"></label>
+      <label><span>عدد المعلمين</span><input id="s_stat_teachers" type="text" inputmode="numeric" maxlength="4" dir="ltr"></label>
+      <label><span>التقييم (من 5، مثال 4.7)</span><input id="s_rating" type="text" inputmode="decimal" maxlength="4" dir="ltr"></label>
       <label class="full"><span>عنوان الصفحة الرئيسية (عربي)</span><input id="s_hero_title_ar" type="text" maxlength="300"></label>
       <label class="full"><span>عنوان الصفحة الرئيسية (إنجليزي)</span><input id="s_hero_title_en" type="text" maxlength="300" dir="ltr"></label>
       <label class="full"><span>الجملة تحت العنوان (عربي)</span><textarea id="s_hero_sub_ar" maxlength="600"></textarea></label>

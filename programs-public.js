@@ -3,10 +3,10 @@
   if (!list) return;
   var data = [];
   var CAT = {
-    ar: { quran: "القرآن", arabic: "العربية", islamic: "إسلاميات", other: "برنامج", level: "كل المستويات", enroll: "سجّل في البرنامج" },
-    en: { quran: "Quran", arabic: "Arabic", islamic: "Islamic", other: "Course", level: "All Levels", enroll: "Enroll" }
+    ar: { quran: "القرآن", arabic: "العربية", islamic: "إسلاميات", kids: "للأطفال", other: "برنامج", level: "كل المستويات", enroll: "سجّل في البرنامج" },
+    en: { quran: "Quran", arabic: "Arabic", islamic: "Islamic", kids: "For Kids", other: "Course", level: "All Levels", enroll: "Enroll" }
   };
-  var ICON = { quran: "i-book", arabic: "i-chat", islamic: "i-dome", other: "i-cap" };
+  var ICON = { quran: "i-book", arabic: "i-chat", islamic: "i-dome", kids: "i-kids", other: "i-cap" };
   var SVGNS = "http://www.w3.org/2000/svg";
   function lang() { return document.documentElement.lang === "en" ? "en" : "ar"; }
   function el(tag, cls, text) {
@@ -32,7 +32,7 @@
       var imgBox = el("div", "course-img" + (p.image_path ? "" : " course-fallback cat-" + cat));
       if (p.image_path) {
         var im = document.createElement("img");
-        im.src = window.AF_sb.storage.from("program-images").getPublicUrl(p.image_path).data.publicUrl;
+        im.src = p.image_path.indexOf("assets/") === 0 ? p.image_path : window.AF_sb.storage.from("program-images").getPublicUrl(p.image_path).data.publicUrl;
         im.alt = p["title_" + l];
         im.loading = "lazy";
         imgBox.appendChild(im);

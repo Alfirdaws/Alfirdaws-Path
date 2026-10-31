@@ -65,7 +65,7 @@
       card.appendChild(h("h2", "", title + " — " + e.student_name));
       if (e.programs && e.programs.image_path) {
         var im = h("img");
-        im.src = sb.storage.from("program-images").getPublicUrl(e.programs.image_path).data.publicUrl;
+        im.src = (e.programs.image_path.indexOf("assets/") === 0 ? e.programs.image_path : sb.storage.from("program-images").getPublicUrl(e.programs.image_path).data.publicUrl);
         im.alt = title;
         im.loading = "lazy";
         card.appendChild(im);

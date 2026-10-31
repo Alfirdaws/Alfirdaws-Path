@@ -5,7 +5,7 @@
   if (!sb) { say("err", "تعذر تحميل الخدمة. اتأكد من الإنترنت وجرّب تاني."); return; }
   var ROLE = { student: "طالب", parent: "ولي أمر", teacher: "معلم", admin: "مدير الأكاديمية" };
   var ST = { pending: "قيد المراجعة", approved: "مقبول", rejected: "مرفوض", cancelled: "ملغي" };
-  var SETTING_KEYS = ["hero_title_ar", "hero_title_en", "hero_sub_ar", "hero_sub_en", "contact_text_ar", "contact_text_en", "contact_whatsapp", "contact_email"];
+  var SETTING_KEYS = ["stat_students", "stat_countries", "stat_teachers", "rating", "hero_title_ar", "hero_title_en", "hero_sub_ar", "hero_sub_en", "contact_text_ar", "contact_text_en", "contact_whatsapp", "contact_email"];
   var STAT_LABELS = [
     ["students", "طلاب"], ["parents", "أولياء أمور"], ["teachers", "معلمون"], ["published_teachers", "معلمون ظاهرون في الموقع"],
     ["programs", "برامج نشطة"], ["pending", "طلبات قيد المراجعة"], ["approved", "تسجيلات مقبولة"], ["rejected", "طلبات مرفوضة"],
@@ -123,7 +123,7 @@
 
   // ---------- programs
   var editingId = null;
-  function imgUrl(path) { return sb.storage.from("program-images").getPublicUrl(path).data.publicUrl; }
+  function imgUrl(path) { return (path.indexOf("assets/") === 0 ? path : sb.storage.from("program-images").getPublicUrl(path).data.publicUrl); }
   function resetProgForm() {
     editingId = null;
     document.getElementById("progForm").reset();
@@ -261,6 +261,10 @@
       if (k === "contact_whatsapp") v = wa;
       return { key: k, value: v };
     });
+    var bad = ["stat_students", "stat_countries", "stat_teachers"].filter(function (k) { var v = el("s_" + k).value.trim(); return v && !/^\d{1,7}$/.test(v); });
+    if (bad.length) return say("err", "أرقام الطلاب والدول والمعلمين لازم تكون أرقام فقط.");
+    var rt = el("s_rating").value.trim();
+    if (rt && (!/^\d(\.\d)?$/.test(rt) || parseFloat(rt) > 5)) return say("err", "التقييم لازم يكون رقم من 0 لـ 5 (مثال 4.7).");
     var heroFile = el("s_hero_image").files[0];
     if (heroFile && !EXT[heroFile.type]) return say("err", "صورة الصفحة الرئيسية لازم تكون JPG أو PNG أو WEBP.");
     if (heroFile && heroFile.size > 2 * 1024 * 1024) return say("err", "حجم الصورة أكبر من 2 ميجا. صغّريها وجرّبي تاني.");
@@ -341,7 +345,7 @@
         return sb.from("programs").update({ image_path: path }).eq("id", r.data.id).then(function (up) {
           btn.disabled = false;
           if (up.error) return fail(up.error);
-          if (oldImage) sb.storage.from("program-images").remove([oldImage]);
+          if (oldImage && oldImage.indexOf("assets/") !== 0) sb.storage.from("program-images").remove([oldImage]);
           resetProgForm();
           say("ok", "تم حفظ البرنامج وصورته.");
           return load();

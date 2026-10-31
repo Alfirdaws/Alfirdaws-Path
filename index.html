@@ -26,6 +26,7 @@
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5 3.5-5 3.5z"/></symbol>
 </svg>
 
@@ -59,10 +60,14 @@
       <div>
         <span class="pill"><svg class="ico"><use href="#i-spark"/></svg><span data-i18n="welcome">أهلًا بك في الفردوس الأعلى</span></span>
         <h1 id="heroTitle" data-i18n="hero_title">تعلّم القرآن والعربية في أي وقت وفي أي مكان</h1>
-        <p id="heroSub" class="sub" data-i18n="hero_sub">حصص فردية مباشرة عبر الإنترنت في القرآن الكريم واللغة العربية والدراسات الإسلامية مع معلمين متخصصين.</p>
+        <p id="heroSub" class="sub" data-i18n="hero_sub">انضم لطلاب من حول العالم يتعلمون القرآن الكريم واللغة العربية والدراسات الإسلامية مع معلمين ناطقين بالعربية.</p>
         <div class="hero-cta">
           <a class="btn big" href="register.html"><span data-i18n="start_journey">ابدأ رحلتك</span><svg class="ico flip"><use href="#i-arrow"/></svg></a>
           <a class="btn ghost big" href="#programs"><span data-i18n="explore">استكشف البرامج</span><svg class="ico"><use href="#i-play"/></svg></a>
+        </div>
+        <div class="trust">
+          <div class="trust-line"><b id="trustStudents">1,000+</b> <span data-i18n="trust_students">طالب من حول العالم</span></div>
+          <div class="trust-line"><span class="stars" aria-hidden="true"><span class="stars-base"><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg></span><span class="stars-fill" id="starsFill" style="width:94%"><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg><svg class="ico"><use href="#i-star"/></svg></span></span> <b id="trustRating">4.7</b> <span data-i18n="trust_rating">تقييم الطلاب</span></div>
         </div>
         <div class="ticks">
           <span><svg class="ico"><use href="#i-check"/></svg><span data-i18n="t1">حصص فردية مباشرة</span></span>
@@ -81,7 +86,7 @@
           <g transform="translate(210 560) scale(.93) translate(-210 -560)">
             <g clip-path="url(#archClip)">
               <rect width="420" height="560" fill="url(#gBg)"/>
-              <g id="heroFallback">
+              <g id="heroFallback" display="none">
                 <rect x="50" y="270" width="30" height="300" rx="15" fill="#0B3B2B" opacity=".55"/><path d="M50 272l15-48 15 48z" fill="#0B3B2B" opacity=".55"/>
                 <rect x="340" y="270" width="30" height="300" rx="15" fill="#0B3B2B" opacity=".55"/><path d="M340 272l15-48 15 48z" fill="#0B3B2B" opacity=".55"/>
                 <path d="M205 96a28 28 0 1 0 24 46 22 22 0 1 1-24-46z" fill="#E4CF9A"/>
@@ -89,12 +94,12 @@
                 <path d="M165 560V360C165 320 190 300 210 270c20 30 45 50 45 90v200z" fill="#fff" opacity=".55"/>
                 <rect x="100" y="526" width="220" height="14" fill="#E4CF9A" opacity=".6"/><rect x="80" y="544" width="260" height="16" fill="#E4CF9A" opacity=".4"/>
               </g>
-              <image id="heroPhoto" href="" x="0" y="0" width="420" height="560" preserveAspectRatio="xMidYMid slice" visibility="hidden"/>
+              <image id="heroPhoto" href="assets/hero-child.jpg" x="0" y="0" width="420" height="560" preserveAspectRatio="xMidYMid slice"/>
             </g>
           </g>
         </svg>
         <div class="float f1"><span class="badge"><svg class="ico"><use href="#i-users"/></svg></span><span><b data-i18n="fc1_h">حصص فردية</b><small data-i18n="fc1_t">تعلّم مخصص لك</small></span></div>
-        <div class="float f2"><span class="badge"><svg class="ico"><use href="#i-cap"/></svg></span><span><b data-i18n="fc2_h">معلمون متخصصون</b><small data-i18n="fc2_t">ذوو خبرة وكفاءة</small></span></div>
+        <div class="float f2"><span class="badge"><svg class="ico"><use href="#i-cap"/></svg></span><span><b data-i18n="fc2_h">معلمون ناطقون بالعربية</b><small data-i18n="fc2_t">مؤهلون وذوو خبرة</small></span></div>
         <div class="float f3"><span class="badge"><svg class="ico"><use href="#i-clock"/></svg></span><span><b data-i18n="fc3_h">مواعيد مرنة</b><small data-i18n="fc3_t">تعلّم في الوقت المناسب لك</small></span></div>
       </div>
     </div>
@@ -110,21 +115,21 @@
       </div>
     </section>
 
-    <section class="stats" id="statsBand" hidden aria-label="Statistics">
-      <div class="st" data-stat="students" hidden><svg class="ico"><use href="#i-users"/></svg><div><b></b><span data-i18n="st_students">طلاب نشطون</span></div></div>
-      <div class="st" data-stat="teachers" hidden><svg class="ico"><use href="#i-user"/></svg><div><b></b><span data-i18n="st_teachers">معلمون مؤهلون</span></div></div>
-      <div class="st" data-stat="programs" hidden><svg class="ico"><use href="#i-book"/></svg><div><b></b><span data-i18n="st_programs">برامج تعليمية</span></div></div>
-      <div class="st" data-stat="lessons" hidden><svg class="ico"><use href="#i-award"/></svg><div><b></b><span data-i18n="st_lessons">حصص تم تقديمها</span></div></div>
+    <section class="stats" id="statsBand" aria-label="Statistics">
+      <div class="st" data-stat="students"><svg class="ico"><use href="#i-users"/></svg><div><b>1,000+</b><span data-i18n="st_students">طالب سعيد</span></div></div>
+      <div class="st" data-stat="countries"><svg class="ico"><use href="#i-globe"/></svg><div><b>30+</b><span data-i18n="st_countries">دولة</span></div></div>
+      <div class="st" data-stat="teachers"><svg class="ico"><use href="#i-user"/></svg><div><b>12+</b><span data-i18n="st_teachers">معلم مؤهل</span></div></div>
+      <div class="st" data-stat="programs" hidden><svg class="ico"><use href="#i-award"/></svg><div><b></b><span data-i18n="st_programs">برنامج تعليمي</span></div></div>
     </section>
 
     <div class="two" id="programs">
       <section>
-        <div class="sec-head"><h2 data-i18n="courses_h">برامجنا</h2><a href="enroll.html" data-i18n="view_all">عرض الكل</a></div>
+        <div class="sec-head"><h2 data-i18n="courses_h">البرامج الأكثر طلبًا</h2><a href="enroll.html" data-i18n="view_all">عرض الكل</a></div>
         <div class="courses" id="programList">
-          <article class="course"><div class="course-img course-fallback cat-quran"><svg class="ico"><use href="#i-book"/></svg></div><div class="course-body"><h3 data-i18n="p1_h">تلاوة القرآن وتجويده</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
-          <article class="course"><div class="course-img course-fallback cat-quran"><svg class="ico"><use href="#i-book"/></svg></div><div class="course-body"><h3 data-i18n="p2_h">حفظ القرآن</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
-          <article class="course"><div class="course-img course-fallback cat-arabic"><svg class="ico"><use href="#i-chat"/></svg></div><div class="course-body"><h3 data-i18n="p3_h">اللغة العربية</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
-          <article class="course"><div class="course-img course-fallback cat-islamic"><svg class="ico"><use href="#i-dome"/></svg></div><div class="course-body"><h3 data-i18n="p4_h">الدراسات الإسلامية</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
+          <article class="course"><div class="course-img"><img src="assets/course-quran.jpg" alt="" loading="lazy"><span class="tag cat-quran" data-i18n="cat_quran">القرآن</span></div><div class="course-body"><h3 data-i18n="p1_h">تلاوة القرآن وتجويده</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
+          <article class="course"><div class="course-img"><img src="assets/course-arabic.jpg" alt="" loading="lazy"><span class="tag cat-arabic" data-i18n="cat_arabic">العربية</span></div><div class="course-body"><h3 data-i18n="p3_h">اللغة العربية</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
+          <article class="course"><div class="course-img"><img src="assets/course-islamic.jpg" alt="" loading="lazy"><span class="tag cat-islamic" data-i18n="cat_islamic">إسلاميات</span></div><div class="course-body"><h3 data-i18n="p4_h">الدراسات الإسلامية</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
+          <article class="course"><div class="course-img"><img src="assets/course-kids.jpg" alt="" loading="lazy"><span class="tag cat-kids" data-i18n="cat_kids">للأطفال</span></div><div class="course-body"><h3 data-i18n="p5_h">القرآن للأطفال (٤–١٢ سنة)</h3><p class="level" data-i18n="level_all">كل المستويات</p></div></article>
         </div>
       </section>
       <aside class="why" id="why">
@@ -132,10 +137,10 @@
         <ul>
           <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w1">حصص فردية مباشرة</span></li>
           <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w2">مواعيد مرنة</span></li>
-          <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w3">معلمون مؤهلون</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w3">معلمون معتمدون ناطقون بالعربية</span></li>
           <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w4">أسعار مناسبة</span></li>
           <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w5">متابعة التقدم</span></li>
-          <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w6">تواصل مع ولي الأمر</span></li>
+          <li><svg class="ico"><use href="#i-check"/></svg><span data-i18n="w6">مجتمع داعم</span></li>
         </ul>
         <svg class="door" viewBox="0 0 200 240" aria-hidden="true"><defs><linearGradient id="gD2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6D6"/><stop offset="1" stop-color="#F0C96A"/></linearGradient></defs><path d="M30 240V110C30 70 70 50 100 8c30 42 70 62 70 102v130z" fill="#14704B"/><path d="M52 240V120C52 92 80 78 100 48c20 30 48 44 48 72v120z" fill="url(#gD2)"/><path d="M96 20a14 14 0 1 0 12 23 11 11 0 1 1-12-23z" fill="#E4CF9A"/><rect x="40" y="226" width="120" height="14" fill="#E4CF9A" opacity=".6"/></svg>
       </aside>

@@ -130,3 +130,14 @@ footer{background:var(--g900);color:#D5E6DC;text-align:center;padding:26px 24px;
   .f2{top:50%;inset-inline-start:-2%}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.trust{display:grid;gap:6px;margin-top:30px;font-size:.95rem;color:#33453D}
+.trust-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.trust-line b{font-weight:600;color:var(--g900)}
+.stars{position:relative;display:inline-block;line-height:0;white-space:nowrap}
+.stars .ico{width:18px;height:18px;fill:currentColor;stroke:none}
+.stars-base{color:#DDD6C2}
+.stars-fill{position:absolute;top:0;inset-inline-start:0;overflow:hidden;color:var(--gold);white-space:nowrap}
+.cat-kids{background:linear-gradient(140deg,#5B5FC7,#2C2F78)}
+.tag.cat-kids{background:#5B5FC7}
+.courses{grid-template-columns:repeat(4,minmax(0,1fr))}

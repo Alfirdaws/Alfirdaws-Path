@@ -54,7 +54,7 @@
     if (!p) return;
     if (p.image_path) {
       var im = h("img");
-      im.src = sb.storage.from("program-images").getPublicUrl(p.image_path).data.publicUrl;
+      im.src = (p.image_path.indexOf("assets/") === 0 ? p.image_path : sb.storage.from("program-images").getPublicUrl(p.image_path).data.publicUrl);
       im.alt = p["title_" + lang()];
       box.appendChild(im);
     }
