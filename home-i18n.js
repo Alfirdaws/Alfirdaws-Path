@@ -6,7 +6,7 @@ window.AF_EXTRA_EN = {
   trust_students: "students worldwide",
   st_countries: "Countries",
   tagline: "Learn. Understand. Grow.",
-  nav_home: "Home", nav_courses: "Courses", nav_teachers: "Teachers", nav_kids: "For Kids", nav_pricing: "Pricing", nav_about: "About Us",
+  nav_home: "Home", nav_courses: "Courses", nav_teachers: "Teachers", nav_kids: "Kids", nav_pricing: "Pricing", nav_about: "About Us",
   signup: "Sign Up",
   welcome: "Welcome to AlFirdaws Al-A’la",
   hero_title: "Learn Quran & Arabic Anytime, Anywhere",
@@ -22,7 +22,7 @@ window.AF_EXTRA_EN = {
   fs4_h: "For Kids", fs4_t: "Fun & Interactive Islamic Learning",
   st_students: "Happy Students", st_teachers: "Qualified Teachers", st_programs: "Programs", st_lessons: "Lessons Delivered",
   courses_h: "Popular Courses", view_all: "View All", level_all: "All Levels",
-  why_h: "Why Choose AlFirdaws Al-A’la?",
+  why_h: "Why You Should Enroll Now",
   w1: "1-on-1 Live Classes", w2: "Flexible Schedule", w3: "Certified Native Teachers", w4: "Affordable Pricing", w5: "Progress Tracking", w6: "Supportive Community",
   kids_h: "Programs for Kids", kids_t: "Fun and interactive 1-on-1 classes for children, with continuous updates for parents.",
   pricing_h: "Pricing", pricing_t: "We offer flexible plans that suit every family. Contact us to learn about prices and plan details."

@@ -141,3 +141,34 @@ footer{background:var(--g900);color:#D5E6DC;text-align:center;padding:26px 24px;
 .cat-kids{background:linear-gradient(140deg,#5B5FC7,#2C2F78)}
 .tag.cat-kids{background:#5B5FC7}
 .courses{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* ===== header polish ===== */
+.top .wrap{gap:20px}
+nav{gap:clamp(14px,1.8vw,28px)}
+nav a{white-space:nowrap;font-size:.93rem;letter-spacing:.01em}
+.actions{flex:none;gap:10px}
+.actions .btn,.actions .lang{height:42px;padding:0 18px;white-space:nowrap;font-size:.92rem;border-radius:10px}
+.actions .btn{font-weight:600;border-width:1.5px}
+.actions .btn.ghost{background:#fff;color:var(--g800);border-color:#BFD3C8}
+.actions .btn.ghost:hover{background:var(--mint);border-color:var(--g800)}
+.actions .btn:not(.ghost){background:linear-gradient(180deg,#127049,#0D5033);border-color:#0D5033;box-shadow:0 4px 12px rgba(15,90,60,.25)}
+.actions .btn:not(.ghost):hover{background:linear-gradient(180deg,#0F5A3C,#0B3B2B)}
+.actions .lang{gap:8px;border-color:#DCD7C8}
+@media(max-width:1180px){
+  .menuBtn{display:block;margin-inline-start:auto}
+  nav{display:none;position:absolute;top:84px;inset-inline:0;background:#fff;flex-direction:column;gap:0;padding:8px 24px 16px;border-bottom:1px solid var(--line);box-shadow:0 16px 24px rgba(0,0,0,.06)}
+  nav.open{display:flex}
+  nav a{padding:12px 0;border-bottom:1px solid #F1EDE2}
+}
+@media(max-width:720px){.actions .login-btn{display:none}.actions .btn,.actions .lang{height:38px;padding:0 12px}}
+/* ===== "why enroll" box: smaller, glowing, heavenly ===== */
+.why{background:radial-gradient(120% 90% at 85% 100%,#FFF3C9 0,rgba(255,243,201,0) 55%),linear-gradient(160deg,#FBF8EE,#E9F5EE);border:1px solid #EADFB8;min-height:290px;padding:24px;box-shadow:0 10px 30px rgba(200,162,74,.12)}
+.why::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);animation:sweep 7s ease-in-out infinite;pointer-events:none}
+.why ul{max-width:64%;position:relative;z-index:1}
+.why h2{position:relative;z-index:1}
+.why svg.door{width:36%;max-width:190px;inset-inline-end:6px;filter:drop-shadow(0 6px 14px rgba(200,162,74,.35))}
+.why .tw{animation:twinkle 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes sweep{0%{transform:translateX(-120%)}55%,100%{transform:translateX(120%)}}
+@media(prefers-reduced-motion:reduce){.why::after{animation:none;display:none}.why .tw{animation:none;opacity:.8}}
+@media(max-width:620px){.why ul{max-width:100%}.why svg.door{opacity:.3}}

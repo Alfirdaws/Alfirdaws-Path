@@ -52,16 +52,16 @@
       <button class="icon-btn" id="logout" type="button" aria-label="Log out"><svg class="ic"><use href="#a-out"/></svg></button>
     </header>
     <main class="content" id="top">
-      <div class="hello"><div><h1 id="hello"></h1><p id="helloSub"></p></div></div>
       <p id="msg" class="msg" role="status" aria-live="polite"></p>
-      <div class="stu-grid">
+      <div id="dashView">
+      <div class="hello"><div><h1 id="hello"></h1><p id="helloSub"></p></div></div>
+            <div class="stu-grid">
         <div class="stu-main">
           <section class="panel hero-card" id="hero"></section>
           <div class="cards4" id="stats"></div>
           <section class="panel" id="courses"></section>
           <section class="panel" id="material"></section>
           <section class="panel" id="lessons"></section>
-          <section class="panel" id="settings"><div class="ph"><h2 id="settingsTitle">الضبط</h2></div><div id="settingsBox"></div></section>
         </div>
         <aside class="stu-side">
           <section class="panel" id="progress"></section>
@@ -69,6 +69,10 @@
           <section class="panel soon-card" id="schedule"></section>
           <section class="panel quote" id="reminder"></section>
         </aside>
+      </div>
+      </div>
+      <div id="settingsView" hidden>
+          <section class="panel" id="settings"><div class="ph"><h2 id="settingsTitle">الضبط</h2></div><div id="settingsBox"></div></section>
       </div>
     </main>
   </div>
@@ -78,6 +82,7 @@
 <script src="script.js"></script>
 <script src="auth.js"></script>
 <script src="settings.js"></script>
+<script src="views.js"></script>
 <script src="student.js"></script>
 </body>
 </html>

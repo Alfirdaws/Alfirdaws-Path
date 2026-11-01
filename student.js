@@ -18,7 +18,7 @@
       myProgress: "تقدّمي", overall: "الإجمالي", lAttended: "حصص حضرتها", lAbsent: "غياب", lTotal: "إجمالي الحصص",
       hwTitle: "الواجبات", noHw: "مفيش واجبات حاليًا.",
       schedTitle: "الحصص المباشرة والجدول", schedSoon: "ده القسم هيتفعّل قريبًا بعد ما نضيف الحصص المباشرة.",
-      navMaterial: "المادة العلمية", matTitle: "المادة العلمية", noMat: "لسه مفيش حصص مرسلة ليك من المعلم.", due: "الموعد", markDone: "علّمي كمكتملة", markDoneM: "علّم كمكتملة", undo: "إلغاء الإتمام", doneLbl: "تمّت", open: "فتح", openLink: "فتح الرابط", fromMat: "من مادة",
+      navMaterial: "المادة العلمية", navAdventure: "مغامرة العربية 🌙", matTitle: "المادة العلمية", noMat: "لسه مفيش حصص مرسلة ليك من المعلم.", due: "الموعد", markDone: "علّمي كمكتملة", markDoneM: "علّم كمكتملة", undo: "إلغاء الإتمام", doneLbl: "تمّت", open: "فتح", openLink: "فتح الرابط", fromMat: "من مادة",
       remTitle: "تذكير للدراسة", hadith: "طلب العلم فريضة على كل مسلم", hadithTr: "رواه ابن ماجه"
     },
     en: {
@@ -36,7 +36,7 @@
       myProgress: "My Progress", overall: "Overall", lAttended: "Lessons attended", lAbsent: "Absences", lTotal: "Total lessons",
       hwTitle: "Homework", noHw: "No homework right now.",
       schedTitle: "Live Classes & Schedule", schedSoon: "This section will be activated soon, once live classes are added.",
-      navMaterial: "Study Material", matTitle: "Study Material", noMat: "No lessons have been sent to you yet.", due: "Due", markDone: "Mark as done", markDoneM: "Mark as done", undo: "Undo", doneLbl: "Done", open: "Open", openLink: "Open link", fromMat: "From",
+      navMaterial: "Study Material", navAdventure: "Arabic Adventure 🌙", matTitle: "Study Material", noMat: "No lessons have been sent to you yet.", due: "Due", markDone: "Mark as done", markDoneM: "Mark as done", undo: "Undo", doneLbl: "Done", open: "Open", openLink: "Open link", fromMat: "From",
       remTitle: "Study Reminder", hadith: "Seeking knowledge is an obligation upon every Muslim", hadithTr: "Narrated by Ibn Majah"
     }
   };
@@ -82,7 +82,7 @@
 
   function renderNav() {
     var nav = el("nav"); nav.textContent = "";
-    [["#top", "home", "navDash"], ["#courses", "book", "navCourses"], ["#material", "file", "navMaterial"], ["#lessons", "file", "navLessons"], ["#homework", "clip", "navHomework"], ["#progress", "award", "navProgress"], ["enroll.html", "users", "navEnroll"], ["#settings", "gear", "navSettings"]].forEach(function (n, i) {
+    [["#top", "home", "navDash"], ["#courses", "book", "navCourses"], ["#material", "file", "navMaterial"], ["adventure.html", "award", "navAdventure"], ["#lessons", "file", "navLessons"], ["#homework", "clip", "navHomework"], ["#progress", "award", "navProgress"], ["enroll.html", "users", "navEnroll"], ["#settings", "gear", "navSettings"]].forEach(function (n, i) {
       var a = h("a", i === 0 ? "on" : ""); a.href = n[0]; a.appendChild(icon(n[1])); a.appendChild(h("span", "", t(n[2])));
       a.addEventListener("click", function () { document.body.classList.remove("side-open"); nav.querySelectorAll("a").forEach(function (x) { x.classList.toggle("on", x === a); }); });
       nav.appendChild(a);

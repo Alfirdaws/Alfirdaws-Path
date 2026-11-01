@@ -90,3 +90,4 @@
 .stuchk input{width:auto}
 .asg{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.85rem;border-top:1px solid #F1EEE5;padding:6px 0}
 .asg span{flex:1;min-width:140px}
+.tfields .full{flex-basis:100%}

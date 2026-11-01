@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>المغامرة | الفردوس الأعلى</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="adv.css">
+</head>
+<body data-page="adventure" class="adv">
+<header class="advbar"><div class="wrap">
+  <a class="brand" href="student.html" aria-label="Dashboard"><svg class="logo" viewBox="0 0 48 52" aria-hidden="true"><path d="M4 50V24C4 14 14 10 24 2c10 8 20 12 20 22v26z" fill="#0F5A3C"/><path d="M24 2c10 8 20 12 20 22v26M24 2C14 10 4 14 4 24v26" fill="none" stroke="#C8A24A" stroke-width="2"/><path d="M11 37c4-2 9-2 13 0 4-2 9-2 13 0v7c-4-2-9-2-13 0-4-2-9-2-13 0z" fill="#fff"/><path d="m24 14 2.5 5 5.5.7-4 3.8 1 5.5-5-2.7-5 2.7 1-5.5-4-3.8 5.5-.7z" fill="#C8A24A"/></svg><span><b data-i18n="brand">الفردوس الأعلى</b><small id="advTitle">Arabic Adventure</small></span></a>
+  <span class="sp"></span>
+  <span class="chip" id="chipXp">⭐ 0</span>
+  <span class="chip" id="chipStreak">🔥 0</span>
+  <span class="chip" id="chipGoal">🎯 0/20</span>
+  <button class="lang" id="langBtn" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg><span id="langLabel">English</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+  <a class="btn ghost small" id="backLink" href="student.html">لوحتي</a>
+</div></header>
+<p id="msg" class="msg" role="status" aria-live="polite" style="max-width:1100px;margin:10px auto 0;padding:0 20px"></p>
+<div class="advwrap">
+  <main id="advMain"></main>
+  <aside class="advside" id="advSide"></aside>
+</div>
+<div id="player" class="player" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
+<script src="auth.js"></script>
+<script src="adv-shared.js"></script>
+<script src="adventure.js"></script>
+</body>
+</html>

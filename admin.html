@@ -46,6 +46,7 @@
       <button type="button" data-nav="programs"><svg class="ic"><use href="#a-book"/></svg><span>البرامج</span></button>
       <button type="button" data-nav="requests"><svg class="ic"><use href="#a-clip"/></svg><span>طلبات التسجيل</span><i id="navReqBadge" class="nb" hidden>0</i></button>
       <button type="button" data-nav="materials"><svg class="ic"><use href="#a-book"/></svg><span>المواد العلمية</span><i id="navMatBadge" class="nb" hidden>0</i></button>
+      <button type="button" data-nav="adventure"><svg class="ic"><use href="#a-award"/></svg><span>المغامرة (Arabic Adventure)</span></button>
       <button type="button" data-nav="lessons"><svg class="ic"><use href="#a-file"/></svg><span>الحصص</span></button>
       <p class="grp">قريبًا</p>
       <button type="button" class="soon" disabled aria-disabled="true"><svg class="ic"><use href="#a-video"/></svg><span>الحصص المباشرة</span><em>قريبًا</em></button>
@@ -178,6 +179,11 @@
           <select id="matFilter"><option value="pending">قيد المراجعة</option><option value="published">المنشورة</option><option value="rejected">المرجّعة</option><option value="draft">المسودات</option><option value="all">الكل</option></select></label></div>
         <div id="matList" class="rows"></div>
       </section>
+      <section class="panel" data-panel="adventure" hidden>
+        <div class="ph"><h2>المغامرة — إدارة المحتوى</h2></div>
+        <p class="meta">مسارات العربية (أطفال، عامة، دراسات إسلامية) ← المستويات ← الوحدات ← الدروس ← الأنشطة. أنشئي الدروس وراجعيها وانشريها، أو استوردي JSON.</p>
+        <div id="advBox"></div>
+      </section>
       <section class="panel" data-panel="settings" hidden>
         <div class="ph"><h2>الضبط</h2></div>
         <div id="settingsBox"></div>
@@ -191,6 +197,8 @@
 <script src="auth.js"></script>
 <script src="settings.js"></script>
 <script src="admin-dash.js"></script>
+<script src="adv-shared.js"></script>
+<script src="admin-adventure.js"></script>
 <script src="admin-materials.js"></script>
 <script src="admin.js"></script>
 </body>
