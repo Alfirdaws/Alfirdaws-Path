@@ -8,7 +8,7 @@
       search: "ابحث في الحصص والبرامج...", site: "عرض الموقع", student: "طالب", parent: "ولي أمر",
       hello: "السلام عليكم، ", helloSub: "كمّل، إنت ماشي في رحلة تعلّم جميلة.",
       navDash: "لوحتي", navCourses: "برامجي", navLessons: "الحصص", navHomework: "الواجبات", navProgress: "تقدّمي",
-      navEnroll: "التسجيل في برنامج", navAccount: "حسابي", navLive: "الحصص المباشرة", navCerts: "الشهادات", navMsgs: "الرسائل", soon: "قريبًا",
+      navEnroll: "التسجيل في برنامج", navSettings: "الضبط", navLive: "الحصص المباشرة", navCerts: "الشهادات", navMsgs: "الرسائل", soon: "قريبًا",
       cont: "كمّل التعلّم", lastLesson: "آخر حصة", noLessonYet: "لسه ما اتسجّلتش حصص", viewLessons: "عرض الحصص", completed: "مكتمل",
       noProg: "لسه ما عندكش برنامج مقبول", noProgSub: "ابعت طلب تسجيل وهنتواصل معاك.", enroll: "التسجيل في برنامج",
       sPrograms: "برامجي", sAttended: "حصص حضرتها", sPending: "طلبات قيد المراجعة", sProgress: "متوسط التقدّم",
@@ -18,6 +18,7 @@
       myProgress: "تقدّمي", overall: "الإجمالي", lAttended: "حصص حضرتها", lAbsent: "غياب", lTotal: "إجمالي الحصص",
       hwTitle: "الواجبات", noHw: "مفيش واجبات حاليًا.",
       schedTitle: "الحصص المباشرة والجدول", schedSoon: "ده القسم هيتفعّل قريبًا بعد ما نضيف الحصص المباشرة.",
+      navMaterial: "المادة العلمية", matTitle: "المادة العلمية", noMat: "لسه مفيش حصص مرسلة ليك من المعلم.", due: "الموعد", markDone: "علّمي كمكتملة", markDoneM: "علّم كمكتملة", undo: "إلغاء الإتمام", doneLbl: "تمّت", open: "فتح", openLink: "فتح الرابط", fromMat: "من مادة",
       remTitle: "تذكير للدراسة", hadith: "طلب العلم فريضة على كل مسلم", hadithTr: "رواه ابن ماجه"
     },
     en: {
@@ -25,7 +26,7 @@
       search: "Search lessons and programs...", site: "View website", student: "Student", parent: "Parent",
       hello: "Assalamu alaikum, ", helloSub: "Keep going! You're on a beautiful learning journey.",
       navDash: "Dashboard", navCourses: "My Programs", navLessons: "Lessons", navHomework: "Homework", navProgress: "Progress",
-      navEnroll: "Enroll in a program", navAccount: "My account", navLive: "Live Classes", navCerts: "Certificates", navMsgs: "Messages", soon: "Soon",
+      navEnroll: "Enroll in a program", navSettings: "Settings", navLive: "Live Classes", navCerts: "Certificates", navMsgs: "Messages", soon: "Soon",
       cont: "Continue Learning", lastLesson: "Last lesson", noLessonYet: "No lessons recorded yet", viewLessons: "View lessons", completed: "Completed",
       noProg: "You have no approved programs yet", noProgSub: "Send an enrollment request and we will contact you.", enroll: "Enroll in a program",
       sPrograms: "My Programs", sAttended: "Lessons Attended", sPending: "Requests Under Review", sProgress: "Average Progress",
@@ -35,6 +36,7 @@
       myProgress: "My Progress", overall: "Overall", lAttended: "Lessons attended", lAbsent: "Absences", lTotal: "Total lessons",
       hwTitle: "Homework", noHw: "No homework right now.",
       schedTitle: "Live Classes & Schedule", schedSoon: "This section will be activated soon, once live classes are added.",
+      navMaterial: "Study Material", matTitle: "Study Material", noMat: "No lessons have been sent to you yet.", due: "Due", markDone: "Mark as done", markDoneM: "Mark as done", undo: "Undo", doneLbl: "Done", open: "Open", openLink: "Open link", fromMat: "From",
       remTitle: "Study Reminder", hadith: "Seeking knowledge is an obligation upon every Muslim", hadithTr: "Narrated by Ibn Majah"
     }
   };
@@ -80,7 +82,7 @@
 
   function renderNav() {
     var nav = el("nav"); nav.textContent = "";
-    [["#top", "home", "navDash"], ["#courses", "book", "navCourses"], ["#lessons", "file", "navLessons"], ["#homework", "clip", "navHomework"], ["#progress", "award", "navProgress"], ["enroll.html", "users", "navEnroll"], ["account.html", "user", "navAccount"]].forEach(function (n, i) {
+    [["#top", "home", "navDash"], ["#courses", "book", "navCourses"], ["#material", "file", "navMaterial"], ["#lessons", "file", "navLessons"], ["#homework", "clip", "navHomework"], ["#progress", "award", "navProgress"], ["enroll.html", "users", "navEnroll"], ["#settings", "gear", "navSettings"]].forEach(function (n, i) {
       var a = h("a", i === 0 ? "on" : ""); a.href = n[0]; a.appendChild(icon(n[1])); a.appendChild(h("span", "", t(n[2])));
       a.addEventListener("click", function () { document.body.classList.remove("side-open"); nav.querySelectorAll("a").forEach(function (x) { x.classList.toggle("on", x === a); }); });
       nav.appendChild(a);
@@ -171,6 +173,42 @@
     if (all.length > 8) { var b = h("button", "lnk", st.more ? t("showLess") : t("showMore")); b.type = "button"; b.addEventListener("click", function () { st.more = !st.more; renderLessons(); }); box.appendChild(b); }
   }
 
+  function renderMaterial() {
+    var box = el("material"); box.textContent = "";
+    var ph = h("div", "ph"); ph.appendChild(h("h2", "", t("matTitle"))); box.appendChild(ph);
+    var items = [];
+    st.enr.forEach(function (e) { (e.lesson_assignments || []).forEach(function (a) { if (a.material_lessons) items.push({ a: a, e: e }); }); });
+    if (!items.length) { box.appendChild(h("p", "meta", t("noMat"))); return; }
+    items.sort(function (x, y) {
+      var dx = x.a.completed_at ? 1 : 0, dy = y.a.completed_at ? 1 : 0;
+      if (dx !== dy) return dx - dy;
+      var ax = x.a.due_date || "9999", ay = y.a.due_date || "9999";
+      return ax < ay ? -1 : ax > ay ? 1 : (x.a.material_lessons.position || 0) - (y.a.material_lessons.position || 0);
+    });
+    items.forEach(function (x) {
+      var a = x.a, l = a.material_lessons, done = !!a.completed_at;
+      var det = h("details", "lessonbox");
+      var sm = h("summary", "", (done ? "✓ " : "") + l.title); det.appendChild(sm);
+      var sub = (l.materials ? t("fromMat") + ": " + l.materials.title + " — " : "") + title(x.e.programs) + " — " + x.e.student_name + (a.due_date ? " — " + t("due") + ": " + fmt(a.due_date) : "");
+      det.appendChild(h("small", "", sub));
+      if (a.note) det.appendChild(h("p", "meta", a.note));
+      if (l.content) det.appendChild(h("div", "pre", l.content));
+      var row = h("div", "btnrow");
+      if (l.link_url && /^https?:\/\//i.test(l.link_url)) { var lk = h("a", "btn ghost small", t("openLink")); lk.href = l.link_url; lk.target = "_blank"; lk.rel = "noopener noreferrer"; row.appendChild(lk); }
+      var b = h("button", "btn small" + (done ? " ghost" : ""), done ? t("undo") : t("markDone")); b.type = "button";
+      b.addEventListener("click", function () {
+        b.disabled = true;
+        sb.rpc("student_set_lesson_done", { aid: a.id, done: !done }).then(function (r) {
+          if (r.error) { b.disabled = false; return fail(r.error.message); }
+          a.completed_at = done ? null : new Date().toISOString();
+          renderMaterial();
+        });
+      });
+      row.appendChild(b); det.appendChild(row);
+      box.appendChild(det);
+    });
+  }
+
   function renderSide() {
     var all = allLessons();
     var att = all.filter(function (x) { return x.l.attendance === "attended"; }).length;
@@ -211,8 +249,9 @@
     el("meRole").textContent = t(st.profile.role);
     el("q").placeholder = t("search");
     el("siteLink").textContent = t("site");
+    el("settingsTitle").textContent = t("navSettings");
   }
-  function renderAll() { renderTop(); renderNav(); renderHero(); renderStats(); renderCourses(); renderLessons(); renderSide(); }
+  function renderAll() { renderTop(); renderNav(); renderHero(); renderStats(); renderCourses(); renderMaterial(); renderLessons(); renderSide(); }
   document.addEventListener("af-lang", renderAll);
 
   el("sideBtn").addEventListener("click", function () { document.body.classList.toggle("side-open"); });
@@ -229,7 +268,7 @@
       st.profile = p.data;
       renderAll();
       return sb.from("enrollments")
-        .select("id,student_name,status,progress_percent,progress_note,programs(title_ar,title_en,image_path),teachers(display_name),lessons(id,held_on,topic,notes,homework,attendance)")
+        .select("id,student_name,status,progress_percent,progress_note,programs(title_ar,title_en,image_path),teachers(display_name),lessons(id,held_on,topic,notes,homework,attendance),lesson_assignments(id,due_date,note,completed_at,material_lessons(id,title,content,link_url,position,materials(title)))")
         .in("status", ["approved", "pending"]).then(function (e) {
           if (e.error) return fail(e.error.message);
           st.enr = (e.data || []).filter(function (x) { return x.status === "approved"; });

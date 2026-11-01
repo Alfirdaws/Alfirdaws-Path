@@ -72,3 +72,21 @@
 .panel form#form{display:flex;flex-direction:column;gap:14px}
 .panel form#form .btn{align-self:flex-start}
 .panel .rows .row .info{flex:1 1 220px}
+.pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0}
+.sbadge{display:inline-block;font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 10px;background:#E3ECE6;color:#0F5A3C}
+.sbadge.pending{background:#FBF0DA;color:#8A6410}
+.sbadge.rejected{background:#FBE7E2;color:#B03A26}
+.sbadge.draft{background:#EDEBE3;color:#5A6B63}
+.mbox{border:1px solid #ECE9E0;border-radius:12px;padding:14px;margin:12px 0;background:#FCFBF8}
+.mbox h3{font-size:1rem;margin-bottom:8px}
+.reason{background:#FBE7E2;border:1px solid #F0C4BA;border-radius:8px;padding:10px 12px;margin:10px 0;font-size:.9rem}
+.lessonbox{border:1px solid #ECE9E0;border-radius:10px;padding:10px 12px;margin:10px 0;background:#fff}
+.lessonbox summary{cursor:pointer;font-weight:600}
+.lessonbox .tfields{margin:10px 0}
+.lessonbox textarea{min-height:140px}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.stuchk{display:flex;flex-wrap:wrap;gap:6px 16px;margin:6px 0}
+.stuchk label{flex-direction:row;align-items:center;gap:6px;font-weight:400}
+.stuchk input{width:auto}
+.asg{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.85rem;border-top:1px solid #F1EEE5;padding:6px 0}
+.asg span{flex:1;min-width:140px}

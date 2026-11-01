@@ -42,9 +42,10 @@
     <nav class="side-nav" id="nav">
       <a href="#top" class="on"><svg class="ic"><use href="#a-home"/></svg><span>لوحة التحكم</span></a>
       <a href="#studentsSec"><svg class="ic"><use href="#a-users"/></svg><span>طلابي</span></a>
+      <a href="#materials"><svg class="ic"><use href="#a-book"/></svg><span>المواد العلمية</span></a>
       <a href="#schedule"><svg class="ic"><use href="#a-cal"/></svg><span>مواعيدي</span></a>
       <a href="#profile"><svg class="ic"><use href="#a-user"/></svg><span>ملفي الشخصي</span></a>
-      <a href="account.html"><svg class="ic"><use href="#a-gear"/></svg><span>حسابي</span></a>
+      <a href="#settings"><svg class="ic"><use href="#a-gear"/></svg><span>الضبط</span></a>
       <p class="grp">قريبًا</p>
       <a class="soon" aria-disabled="true"><svg class="ic"><use href="#a-video"/></svg><span>الحصص المباشرة</span><em>قريبًا</em></a>
       <a class="soon" aria-disabled="true"><svg class="ic"><use href="#a-clip"/></svg><span>الواجبات والاختبارات</span><em>قريبًا</em></a>
@@ -57,7 +58,7 @@
     <header class="bar">
       <button class="icon-btn menu" id="sideBtn" type="button" aria-label="القائمة"><svg class="ic"><use href="#a-menu"/></svg></button>
       <label class="search"><svg class="ic"><use href="#a-search"/></svg><input id="tq" type="search" placeholder="ابحثي عن طالب أو برنامج..." autocomplete="off" aria-label="بحث"></label>
-      <a class="me" href="account.html"><span class="av" id="meAv">م</span><span class="me-t"><b id="meName">…</b><small>معلم</small></span></a>
+      <a class="me" href="#settings"><span class="av" id="meAv">م</span><span class="me-t"><b id="meName">…</b><small>معلم</small></span></a>
       <button class="icon-btn" id="logout" type="button" aria-label="تسجيل الخروج"><svg class="ic"><use href="#a-out"/></svg></button>
     </header>
     <main class="content" id="top">
@@ -76,6 +77,7 @@
       <section class="panel" style="margin-bottom:16px"><div class="ph"><h2>إجراءات سريعة</h2></div>
         <div class="qa">
           <a href="#studentsSec"><span class="ico-c"><svg class="ic"><use href="#a-file"/></svg></span>تسجيل حصة</a>
+          <a href="#materials"><span class="ico-c"><svg class="ic"><use href="#a-book"/></svg></span>مادة علمية جديدة</a>
           <a href="#schedule"><span class="ico-c"><svg class="ic"><use href="#a-cal"/></svg></span>إضافة موعد</a>
           <a href="#profile"><span class="ico-c"><svg class="ic"><use href="#a-user"/></svg></span>تعديل ملفي</a>
           <a href="index.html#teachers"><span class="ico-c"><svg class="ic"><use href="#a-ext"/></svg></span>شوفي ظهوري في الموقع</a>
@@ -86,6 +88,12 @@
         <div class="ph"><h2>طلابي</h2></div><p class="meta">الطلاب اللي الإدارة أسندتهم ليك.</p>
     <div id="students" class="rows"></div>
     <p id="msg3" class="msg" role="status" aria-live="polite"></p>
+      </section>
+      <section class="panel" id="materials" style="margin-top:16px">
+        <div class="ph"><h2>المواد العلمية</h2></div>
+        <p class="meta">اكتبي المادة العلمية لكل برنامج وقسّميها لحصص، وابعتيها لمدير الأكاديمية للمراجعة. بعد ما تتنشر، ابعتي كل حصة لطالب أو أكتر.</p>
+        <p id="matMsg" class="msg" role="status" aria-live="polite"></p>
+        <div id="matBox"></div>
       </section>
       <section class="panel" id="schedule" style="margin-top:16px">
         <div class="ph"><h2>مواعيدك المتاحة</h2></div><p class="meta">المواعيد بتوقيت القاهرة.</p>
@@ -122,6 +130,10 @@
     <button class="btn big" id="submit" type="submit">حفظ البيانات</button>
     <p id="msg" class="msg" role="status" aria-live="polite"></p></form>
       </section>
+      <section class="panel" id="settings" style="margin-top:16px">
+        <div class="ph"><h2>الضبط</h2></div>
+        <div id="settingsBox"></div>
+      </section>
     </main>
   </div>
 </div>
@@ -129,7 +141,9 @@
 <script src="config.js"></script>
 <script src="script.js"></script>
 <script src="auth.js"></script>
+<script src="settings.js"></script>
 <script src="teacher-dash.js"></script>
+<script src="teacher-materials.js"></script>
 <script src="teacher.js"></script>
 </body>
 </html>

@@ -45,6 +45,7 @@
   document.querySelectorAll("[data-go]").forEach(function (b) {
     b.addEventListener("click", function () { showTab(b.dataset.go); });
   });
+  el("meLink").addEventListener("click", function (ev) { ev.preventDefault(); showTab("settings"); });
   el("sideBtn").addEventListener("click", function () { document.body.classList.toggle("side-open"); });
   el("scrim").addEventListener("click", function () { document.body.classList.remove("side-open"); });
   el("bell").addEventListener("click", function () { el("reqFilter").value = "pending"; renderEnrollments(); showTab("requests"); });

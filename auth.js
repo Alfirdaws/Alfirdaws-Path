@@ -77,6 +77,19 @@
     if (m.indexOf("rate limit") > -1 || m.indexOf("too many") > -1) return "rate";
     return "generic";
   }
+  function homeFor(role) {
+    return role === "admin" ? "admin.html" : role === "teacher" ? "teacher.html" : (role === "student" || role === "parent") ? "student.html" : "index.html";
+  }
+  function goHome() {
+    return sb.auth.getSession().then(function (r) {
+      var sess = r.data && r.data.session;
+      if (!sess) { window.location.href = "login.html"; return; }
+      return sb.from("profiles").select("role,password_set").eq("id", sess.user.id).single().then(function (p) {
+        if (!p.data) { window.location.href = "index.html"; return; }
+        window.location.href = p.data.password_set === false ? "set-password.html" : homeFor(p.data.role);
+      });
+    });
+  }
   function busy(b) { if (submit) submit.disabled = b; }
   function val(id) { return document.getElementById(id).value.trim(); }
   var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -121,7 +134,7 @@
           if (m.indexOf("database") > -1 || r.error.status === 500 || r.error.status === 422) return show("err", "badInvite");
           return show("err", mapError(r.error));
         }
-        if (r.data && r.data.session) { window.location.href = "account.html"; return; }
+        if (r.data && r.data.session) { goHome(); return; }
         form.reset();
         show("ok", "checkMail");
       }).catch(function () { busy(false); show("err", "generic"); });
@@ -129,7 +142,7 @@
   }
 
   if (page === "login") {
-    sb.auth.getSession().then(function (r) { if (r.data && r.data.session) window.location.href = "account.html"; });
+    sb.auth.getSession().then(function (r) { if (r.data && r.data.session) goHome(); });
     form.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var email = val("email"), pass = document.getElementById("password").value;
@@ -137,7 +150,7 @@
       busy(true);
       sb.auth.signInWithPassword({ email: email, password: pass }).then(function (r) {
         if (r.error) { busy(false); return show("err", mapError(r.error)); }
-        window.location.href = "account.html";
+        goHome();
       }).catch(function () { busy(false); show("err", "generic"); });
     });
   }
@@ -209,7 +222,7 @@
       }).catch(function () { b.disabled = false; show("err", "generic"); });
     });
     newPassFlow(newForm, "newpass", "newpass2", msg, function () {
-      setTimeout(function () { window.location.href = "account.html"; }, 1500);
+      setTimeout(goHome, 1500);
     });
   }
 
@@ -220,12 +233,12 @@
   if (page === "setpass") {
     sb.auth.getSession().then(function (r) { if (!(r.data && r.data.session)) window.location.href = "login.html"; });
     newPassFlow(form, "newpass", "newpass2", msg, function () {
-      setTimeout(function () { window.location.href = "account.html"; }, 1200);
+      setTimeout(goHome, 1200);
     });
   }
 
   // Accounts with a temporary password must choose their own before using the site
-  if (["account", "student", "teacher", "enroll"].indexOf(page) > -1) {
+  if (["student", "teacher", "enroll", "admin"].indexOf(page) > -1) {
     sb.auth.getSession().then(function (r) {
       var s = r.data && r.data.session;
       if (!s) return;
@@ -234,4 +247,6 @@
       });
     });
   }
+
+  if (page === "redirect") { goHome(); }
 })();
