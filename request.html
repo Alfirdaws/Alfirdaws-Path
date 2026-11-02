@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>طلب دعوة | الفردوس الأعلى</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="request">
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="AlFirdaws Al-A’la"><svg class="logo" viewBox="0 0 48 52" aria-hidden="true"><path d="M4 50V24C4 14 14 10 24 2c10 8 20 12 20 22v26z" fill="#0F5A3C"/><path d="M24 2c10 8 20 12 20 22v26M24 2C14 10 4 14 4 24v26" fill="none" stroke="#C8A24A" stroke-width="2"/><path d="M11 37c4-2 9-2 13 0 4-2 9-2 13 0v7c-4-2-9-2-13 0-4-2-9-2-13 0z" fill="#fff"/><path d="m24 14 2.5 5 5.5.7-4 3.8 1 5.5-5-2.7-5 2.7 1-5.5-4-3.8 5.5-.7z" fill="#C8A24A"/></svg><span><b data-i18n="brand">الفردوس الأعلى</b><small data-i18n="tagline">تعلّم. افهم. انمُ.</small></span></a>
+  <div class="actions" style="margin-inline-start:auto"><button class="lang" id="langBtn" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg><span id="langLabel">English</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><a class="btn ghost" href="login.html" data-i18n="login">تسجيل الدخول</a></div>
+</div></header>
+<main class="req-wrap">
+  <section class="req-hero">
+    <h1 data-i18n="rq_h">طلب دعوة</h1>
+    <p data-i18n="rq_sub">الانضمام لأكاديميتنا متاح حاليًا بدعوة. أرسل طلبك وسيراجعه فريق القبول.</p>
+    <h2 class="req-how" data-i18n="rq_how">كيف يتم الأمر</h2>
+    <ol class="steps">
+      <li><span>1</span><b data-i18n="rq_s1">أرسل طلب التسجيل</b></li>
+      <li><span>2</span><b data-i18n="rq_s2">استلم مفتاح الدعوة</b></li>
+      <li><span>3</span><b data-i18n="rq_s3">أنشئ حسابك في الأكاديمية</b></li>
+    </ol>
+  </section>
+
+  <form id="reqForm" class="auth-card wide req-card" novalidate>
+    <p class="meta"><span class="req-star">*</span> <span data-i18n="rq_req">سؤال إلزامي</span></p>
+
+    <label><span><span data-i18n="rq_name">الاسم الكامل</span> <i class="req-star">*</i></span>
+      <input id="r_name" type="text" maxlength="120" autocomplete="name"></label>
+
+    <label><span><span data-i18n="rq_email">البريد الإلكتروني</span> <i class="req-star">*</i></span>
+      <small class="hint" data-i18n="rq_email_h">تأكد من أن بريدك صحيح ويعمل.</small>
+      <input id="r_email" type="email" maxlength="200" autocomplete="email" dir="ltr"></label>
+
+    <label><span><span data-i18n="rq_phone">رقم الهاتف (واتساب)</span> <i class="req-star">*</i></span>
+      <input id="r_phone" type="tel" maxlength="30" autocomplete="tel" dir="ltr"></label>
+
+    <label><span><span data-i18n="rq_country">بلد الإقامة</span> <i class="req-star">*</i></span>
+      <input id="r_country" type="text" maxlength="80" autocomplete="country-name"></label>
+
+    <fieldset class="req-set">
+      <legend><span data-i18n="rq_age">الفئة العمرية</span> <i class="req-star">*</i></legend>
+      <label class="radio"><input type="radio" name="age" value="13–17"><span>13–17</span></label>
+      <label class="radio"><input type="radio" name="age" value="18–24"><span>18–24</span></label>
+      <label class="radio"><input type="radio" name="age" value="25–34"><span>25–34</span></label>
+      <label class="radio"><input type="radio" name="age" value="35–44"><span>35–44</span></label>
+      <label class="radio"><input type="radio" name="age" value="45+"><span>45+</span></label>
+      <small class="hint" data-i18n="rq_minor">إذا كان عمرك أقل من 18 سنة، يُفضَّل أن يملأ ولي الأمر الطلب.</small>
+    </fieldset>
+
+    <label><span><span data-i18n="rq_prog">البرنامج المهتم به</span> <i class="req-star">*</i></span>
+      <select id="r_program">
+        <option value="" data-i18n="rq_choose">اختر</option>
+        <option value="Quran and Tajweed" data-i18n="rq_p1">القرآن والتجويد</option>
+        <option value="Arabic language" data-i18n="rq_p2">اللغة العربية</option>
+        <option value="Islamic studies" data-i18n="rq_p3">الدراسات الإسلامية</option>
+        <option value="Quran Memorization" data-i18n="rq_p4">حفظ القرآن</option>
+        <option value="Program for New Muslims" data-i18n="rq_p5">برنامج المسلمين الجدد</option>
+        <option value="Muslim Family Program" data-i18n="rq_p6">برنامج الأسرة المسلمة</option>
+      </select></label>
+
+    <label><span data-i18n="rq_goal">ما هو هدفك الرئيسي من التعلّم؟</span>
+      <textarea id="r_goal" maxlength="800" rows="3"></textarea></label>
+
+    <div class="hp" aria-hidden="true"><label>Website<input id="r_site" type="text" tabindex="-1" autocomplete="off"></label></div>
+
+    <label class="check"><input id="r_consent" type="checkbox"><span data-i18n="rq_consent">أوافق على إرسال بياناتي إلى فريق القبول بالأكاديمية لمراجعة طلبي. تُحفظ الإجابات في Google Forms ولا تُستخدم إلا لهذا الغرض.</span></label>
+
+    <button class="btn big" id="submit" type="submit" data-i18n="rq_send">إرسال الطلب</button>
+    <p id="msg" class="msg" role="status" aria-live="polite"></p>
+    <p class="alt"><a id="origLink" href="https://forms.gle/gMpM4bAsTzz9adKb8" target="_blank" rel="noopener noreferrer" hidden data-i18n="rq_orig">افتح النموذج الأصلي</a></p>
+    <p class="alt"><span data-i18n="rq_have">عندك مفتاح دعوة؟</span> <a href="register.html" data-i18n="reg_invite_h">إنشاء حساب</a></p>
+  </form>
+
+  <section id="done" class="auth-card wide req-card req-done" hidden>
+    <div class="req-ok">✓</div>
+    <h2 data-i18n="rq_thanks">تم إرسال طلبك</h2>
+    <p data-i18n="rq_thanks_t">سيراجع فريق القبول طلبك ويتواصل معك عبر البريد الإلكتروني أو الواتساب ومعه مفتاح الدعوة.</p>
+    <div class="req-actions">
+      <a class="btn" href="register.html" data-i18n="rq_gotkey">لدي مفتاح دعوة</a>
+      <a class="btn ghost" href="index.html" data-i18n="rq_home">العودة للرئيسية</a>
+    </div>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="request-i18n.js"></script>
+<script src="script.js"></script>
+<script src="invite-config.js"></script>
+<script src="request.js"></script>
+</body>
+</html>

@@ -123,3 +123,30 @@ h1,h2,h3{font-family:var(--serif);color:var(--g900);line-height:1.25}
 .credbox{background:#FFF8E1;border:1px solid #E4CF9A;border-radius:10px;padding:14px;margin:12px 0}
 .credbox pre{white-space:pre-wrap;font-family:inherit;margin:0 0 10px;overflow-wrap:anywhere}
 .lockbadge{font-weight:700}
+
+/* ===== Request an invitation page ===== */
+.req-wrap{background:radial-gradient(900px 500px at 85% 0,#fff 0,transparent 60%),var(--cream);padding:40px 20px 70px;display:flex;flex-direction:column;align-items:center;gap:22px}
+.req-hero{width:100%;max-width:680px}
+.req-hero h1{font-size:2.3rem;color:var(--green)}
+.req-hero p{margin:10px 0 18px;color:#33453D;font-size:1.05rem}
+.req-how{font-family:var(--sans);font-size:1rem;font-weight:600;margin:0 0 10px;color:var(--g900)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.steps li{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.steps li span{width:30px;height:30px;border-radius:50%;background:linear-gradient(180deg,#127049,#0D5033);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.steps li b{font-weight:600}
+.req-card{max-width:680px;gap:16px}
+.req-star{color:#C4452F;font-style:normal;font-weight:700}
+.req-card .hint,.req-set .hint{display:block;color:#5A6B63;font-weight:400;font-size:.85rem}
+.req-set{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.req-set legend{font-weight:500;margin-bottom:6px;padding:0}
+.req-card textarea{font:inherit;padding:10px 12px;border:1px solid #9DB5AB;border-radius:8px;min-height:90px;resize:vertical}
+.req-card label.radio{flex-direction:row;align-items:center;gap:10px;font-weight:400;border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;background:#fff}
+.req-card label.radio:has(input:checked){border-color:var(--green);background:var(--tint)}
+.req-card label.radio input,.req-card label.check input{width:18px;height:18px;padding:0;accent-color:#0F5A3C}
+.req-card label.check{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;font-size:.9rem;color:#33453D}
+.req-card label.check input{margin-top:3px;flex:none}
+.hp{position:absolute;inset-inline-start:-9999px;width:1px;height:1px;overflow:hidden}
+.req-link{font-weight:700}
+.req-done{text-align:center;align-items:center}
+.req-ok{width:64px;height:64px;border-radius:50%;background:#DDF3E7;color:#2F8F5B;font-size:2rem;display:grid;place-items:center;margin:0 auto}
+.req-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}

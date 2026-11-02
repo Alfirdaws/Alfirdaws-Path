@@ -30,7 +30,7 @@
     reg_invite_h:"Create your account", reg_note:"Registration is by invitation from the academy. If you do not have an invitation, contact us.",
     f_key:"Invitation key", have_invite:"Have an invitation?", forgot_admin:"Forgot your password? Contact the academy to reset it.",
     forgot_staff:"Director: reset by email", set_h:"Choose your own password", set_sub:"For your security, please choose a new password before you continue.",
-    contact_us:"Contact us"
+    contact_us:"Contact us", request_inv:"Request an invitation"
   } };
   if (window.AF_EXTRA_EN) Object.keys(window.AF_EXTRA_EN).forEach(function (k) { T.en[k] = window.AF_EXTRA_EN[k]; });
   var els = document.querySelectorAll("[data-i18n]");
