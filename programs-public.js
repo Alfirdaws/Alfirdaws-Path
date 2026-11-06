@@ -47,7 +47,7 @@
       var d = p["description_" + l];
       if (d) body.appendChild(el("p", "more", d));
       var a = el("a", "course-link", c.enroll + " ›");
-      a.href = "enroll.html";
+      a.href = "request.html?type=enroll&program=" + encodeURIComponent(p.title_en || "") + "&pa=" + encodeURIComponent(p.title_ar || "");
       body.appendChild(a);
       card.appendChild(body);
       list.appendChild(card);

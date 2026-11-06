@@ -150,3 +150,4 @@ h1,h2,h3{font-family:var(--serif);color:var(--g900);line-height:1.25}
 .req-done{text-align:center;align-items:center}
 .req-ok{width:64px;height:64px;border-radius:50%;background:#DDF3E7;color:#2F8F5B;font-size:2rem;display:grid;place-items:center;margin:0 auto}
 .req-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.req-chosen{display:inline-block;background:#E7F2EC;border:1px solid #BFD3C8;color:var(--green);border-radius:999px;padding:6px 16px;font-weight:600;margin:0 0 14px!important}

@@ -17,13 +17,14 @@
 </div></header>
 <main class="req-wrap">
   <section class="req-hero">
-    <h1 data-i18n="rq_h">طلب دعوة</h1>
-    <p data-i18n="rq_sub">الانضمام لأكاديميتنا متاح حاليًا بدعوة. أرسل طلبك وسيراجعه فريق القبول.</p>
-    <h2 class="req-how" data-i18n="rq_how">كيف يتم الأمر</h2>
+    <h1 id="rqTitle" data-i18n="rq_h">طلب دعوة</h1>
+    <p id="rqSub" data-i18n="rq_sub">الانضمام لأكاديميتنا متاح حاليًا بدعوة. أرسل طلبك وسيراجعه فريق القبول.</p>
+    <p id="rqChosen" class="req-chosen" hidden></p>
+    <h2 id="rqHow" class="req-how" data-i18n="rq_how">كيف يتم الأمر</h2>
     <ol class="steps">
-      <li><span>1</span><b data-i18n="rq_s1">أرسل طلب التسجيل</b></li>
-      <li><span>2</span><b data-i18n="rq_s2">استلم مفتاح الدعوة</b></li>
-      <li><span>3</span><b data-i18n="rq_s3">أنشئ حسابك في الأكاديمية</b></li>
+      <li><span>1</span><b id="rqS1" data-i18n="rq_s1">أرسل طلب التسجيل</b></li>
+      <li><span>2</span><b id="rqS2" data-i18n="rq_s2">استلم مفتاح الدعوة</b></li>
+      <li><span>3</span><b id="rqS3" data-i18n="rq_s3">أنشئ حسابك في الأكاديمية</b></li>
     </ol>
   </section>
 
@@ -74,15 +75,15 @@
     <button class="btn big" id="submit" type="submit" data-i18n="rq_send">إرسال الطلب</button>
     <p id="msg" class="msg" role="status" aria-live="polite"></p>
     <p class="alt"><a id="origLink" href="https://forms.gle/gMpM4bAsTzz9adKb8" target="_blank" rel="noopener noreferrer" hidden data-i18n="rq_orig">افتح النموذج الأصلي</a></p>
-    <p class="alt"><span data-i18n="rq_have">عندك مفتاح دعوة؟</span> <a href="register.html" data-i18n="reg_invite_h">إنشاء حساب</a></p>
+    <p id="rqHave" class="alt"><span data-i18n="rq_have">عندك مفتاح دعوة؟</span> <a href="register.html" data-i18n="reg_invite_h">إنشاء حساب</a></p>
   </form>
 
   <section id="done" class="auth-card wide req-card req-done" hidden>
     <div class="req-ok">✓</div>
-    <h2 data-i18n="rq_thanks">تم إرسال طلبك</h2>
-    <p data-i18n="rq_thanks_t">سيراجع فريق القبول طلبك ويتواصل معك عبر البريد الإلكتروني أو الواتساب ومعه مفتاح الدعوة.</p>
+    <h2 id="rqThanks" data-i18n="rq_thanks">تم إرسال طلبك</h2>
+    <p id="rqThanksT" data-i18n="rq_thanks_t">سيراجع فريق القبول طلبك ويتواصل معك عبر البريد الإلكتروني أو الواتساب ومعه مفتاح الدعوة.</p>
     <div class="req-actions">
-      <a class="btn" href="register.html" data-i18n="rq_gotkey">لدي مفتاح دعوة</a>
+      <a id="rqGot" class="btn" href="register.html" data-i18n="rq_gotkey">لدي مفتاح دعوة</a>
       <a class="btn ghost" href="index.html" data-i18n="rq_home">العودة للرئيسية</a>
     </div>
   </section>

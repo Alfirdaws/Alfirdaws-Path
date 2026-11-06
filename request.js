@@ -18,6 +18,49 @@
   function lang() { return document.documentElement.lang === "en" ? "en" : "ar"; }
   function t(k) { return M[lang()][k]; }
   function val(id) { return document.getElementById(id).value.trim(); }
+  // ----- mode: "invite" (default) or "enroll" (opened from a course card)
+  var params = new URLSearchParams(window.location.search);
+  var ENROLL = params.get("type") === "enroll";
+  var progEn = (params.get("program") || "").slice(0, 120), progAr = (params.get("pa") || "").slice(0, 120);
+  var EN_TXT = {
+    ar: {
+      title: "طلب تسجيل", sub: "اختر البرنامج الذي يناسبك وأرسل طلب التسجيل، وسيتواصل معك فريق الأكاديمية لتأكيد التسجيل وترتيب الدفع.",
+      s1: "أرسل طلب التسجيل", s2: "نتواصل معك لتأكيد التسجيل", s3: "ابدأ التعلّم", thanks: "تم إرسال طلب التسجيل",
+      thanksT: "سيتواصل معك فريق الأكاديمية عبر البريد الإلكتروني أو الواتساب لتأكيد التسجيل وترتيب الدفع.", chosen: "البرنامج المختار: ", pageTitle: "طلب تسجيل | الفردوس الأعلى"
+    },
+    en: {
+      title: "Enrollment Request", sub: "Choose the program that suits you and send your enrollment request. Our team will contact you to confirm your enrollment and arrange payment.",
+      s1: "Submit your enrollment request", s2: "We contact you to confirm", s3: "Start learning", thanks: "Your enrollment request has been sent",
+      thanksT: "Our team will contact you by email or WhatsApp to confirm your enrollment and arrange payment.", chosen: "Selected program: ", pageTitle: "Enrollment Request | AlFirdaws Al-A’la"
+    }
+  };
+  // map a program title to the exact option in the Google Form (the form has these 6 options)
+  function formOption(title) {
+    var s = String(title || "").toLowerCase();
+    if (/new muslim/.test(s)) return "Program for New Muslims";
+    if (/family/.test(s)) return "Muslim Family Program";
+    if (/memoriz/.test(s)) return "Quran Memorization";
+    if (/tajweed|recitation/.test(s)) return "Quran and Tajweed";
+    if (/arabic/.test(s)) return "Arabic language";
+    if (/islamic/.test(s)) return "Islamic studies";
+    return "";
+  }
+  function applyEnroll() {
+    if (!ENROLL) return;
+    var T = EN_TXT[lang()];
+    [["rqTitle", "title"], ["rqSub", "sub"], ["rqS1", "s1"], ["rqS2", "s2"], ["rqS3", "s3"], ["rqThanks", "thanks"], ["rqThanksT", "thanksT"]].forEach(function (p) { var e = document.getElementById(p[0]); if (e) e.textContent = T[p[1]]; });
+    document.title = T.pageTitle;
+    var ch = document.getElementById("rqChosen"), name = lang() === "ar" ? (progAr || progEn) : (progEn || progAr);
+    if (ch) { ch.hidden = !name; ch.textContent = name ? T.chosen + name : ""; }
+  }
+  if (ENROLL) {
+    var hv = document.getElementById("rqHave"), gk = document.getElementById("rqGot");
+    if (hv) hv.hidden = true; if (gk) gk.hidden = true;
+    var sel = document.getElementById("r_program"), opt = formOption(progEn || progAr);
+    if (sel && opt) sel.value = opt;
+    document.addEventListener("af-lang", applyEnroll);
+    applyEnroll();
+  }
   var started = Date.now(), lastKey = "";
   function show(kind, key, withLink) {
     lastKey = key; msg.className = "msg " + kind; msg.textContent = t(key);
@@ -47,7 +90,9 @@
     var E = C.ENTRY, body = new URLSearchParams();
     body.append("entry." + E.name, name); body.append("entry." + E.email, email); body.append("entry." + E.phone, phone);
     body.append("entry." + E.country, country); body.append("entry." + E.age, age); body.append("entry." + E.program, program);
-    if (E.goal && goal) body.append("entry." + E.goal, goal);
+    var goalOut = goal;
+    if (ENROLL) { goalOut = "[Enrollment request]" + (progEn ? " " + progEn : "") + (goal ? " — " + goal : ""); }
+    if (E.goal && goalOut) body.append("entry." + E.goal, goalOut);
     btn.disabled = true; show("ok", "sending");
     fetch("https://docs.google.com/forms/d/e/" + C.FORM_ID + "/formResponse", { method: "POST", mode: "no-cors", body: body })
       .then(done)
